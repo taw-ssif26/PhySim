@@ -1,0 +1,2765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Simulation Laboratory</title>
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================================
+           GLOBAL CSS & VARIABLES
+           ========================================================= */
+        :root {
+            --bg-base: #080a0c;
+            --bg-surface: #101418;
+            --bg-surface-elevated: #161c22;
+            --border-subtle: #20262d;
+            --border-accent: #30363d;
+            
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #484f58;
+            
+            --accent-cyan: #00f0ff;
+            --accent-cyan-glow: rgba(0, 240, 255, 0.25);
+            --accent-violet: #8a2be2;
+            --accent-orange: #ff7f50;
+            --accent-red: #ff4a4a;
+            --accent-blue: #1f6feb;
+            --accent-yellow: #ffd700;
+            
+            --font-ui: 'Inter', system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --transition-smooth: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-ui);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Technical Grid Background overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-base);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-subtle);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-accent);
+        }
+
+        /* Layout framework */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background-color: rgba(8, 10, 12, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .logo-symbol {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 50%;
+            position: relative;
+            animation: pulse-ring 4s infinite linear;
+        }
+
+        .logo-symbol::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: rotate(0deg); border-style: solid; }
+            50% { border-color: var(--accent-violet); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .logo-text span {
+            color: var(--accent-cyan);
+            font-weight: 400;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        nav a {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition-smooth);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent-cyan);
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-cyan);
+            animation: pulse-dot 1.5s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        main {
+            position: relative;
+            z-index: 10;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Generic utilities */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-primary);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 240, 255, 0.02);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.05);
+        }
+
+        .btn-primary {
+            background: var(--accent-cyan);
+            color: var(--bg-base);
+            border: 1px solid var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: #00d2e0;
+            border-color: #00d2e0;
+            color: var(--bg-base);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+        }
+
+        /* =========================================================
+           HOME VIEW STYLES
+           ========================================================= */
+        .hero {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 80px 20px;
+            overflow: hidden;
+        }
+
+        .hero-canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .hero-pretitle {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 40%, var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            max-width: 650px;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        /* Home Explore Section */
+        .home-section {
+            padding: 60px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 16px;
+        }
+
+        .section-title-wrapper h2 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .section-title-wrapper p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        /* =========================================================
+           BROWSER STYLES
+           ========================================================= */
+        .browser-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: calc(100vh - 70px);
+            max-width: 100%;
+        }
+
+        .browser-sidebar {
+            border-right: 1px solid var(--border-subtle);
+            padding: 32px;
+            background-color: rgba(16, 20, 24, 0.3);
+        }
+
+        .sidebar-section {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .category-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .category-item:hover, .category-item.active {
+            background-color: var(--bg-surface-elevated);
+            color: var(--text-primary);
+        }
+
+        .category-item.active {
+            border-left: 2px solid var(--accent-cyan);
+        }
+
+        .category-count {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .browser-main {
+            padding: 40px;
+        }
+
+        .search-bar-container {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 48px;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 0 16px 0 48px;
+            color: var(--text-primary);
+            font-family: var(--font-ui);
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.08);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        /* Catalog-style experiment cards */
+        .experiment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .experiment-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .experiment-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet));
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .experiment-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-accent);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .experiment-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .card-meta {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-difficulty {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .diff-beginner { background: rgba(0, 240, 255, 0.08); color: var(--accent-cyan); }
+        .diff-intermediate { background: rgba(255, 127, 80, 0.08); color: var(--accent-orange); }
+        .diff-advanced { background: rgba(138, 43, 226, 0.08); color: #b175ff; }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: auto;
+        }
+
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            background-color: var(--bg-surface-elevated);
+            color: var(--text-secondary);
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+
+        /* =========================================================
+           EXPERIMENT WORKSPACE LAYOUT
+           ========================================================= */
+        .workspace {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 70px);
+            background-color: var(--bg-base);
+        }
+
+        .workspace-header {
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 24px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--bg-surface);
+        }
+
+        .breadcrumb {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb span {
+            color: var(--accent-cyan);
+            cursor: pointer;
+        }
+
+        .workspace-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            flex-grow: 1;
+            min-height: 500px;
+        }
+
+        .canvas-area {
+            position: relative;
+            background-color: #0b0e12;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid var(--border-subtle);
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .simulation-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16/9;
+            background-color: #07090c;
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        .simulation-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .canvas-toolbar {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(16, 20, 24, 0.95);
+            border: 1px solid var(--border-accent);
+            border-radius: 4px;
+            display: flex;
+            padding: 4px;
+            gap: 4px;
+            backdrop-filter: blur(8px);
+            z-index: 20;
+        }
+
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            width: 32px;
+            height: 32px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .toolbar-btn:hover {
+            color: var(--accent-cyan);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .toolbar-btn.active {
+            color: var(--bg-base);
+            background-color: var(--accent-cyan);
+        }
+
+        /* Control panel on right */
+        .workspace-sidebar {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-surface);
+            overflow-y: auto;
+            max-height: calc(100vh - 150px);
+        }
+
+        .sidebar-panel {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .sidebar-panel-title {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Scientific Slider & Control elements */
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+        }
+
+        .control-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .control-value {
+            font-family: var(--font-mono);
+            color: var(--accent-cyan);
+        }
+
+        .slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sim-slider {
+            flex-grow: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--border-subtle);
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .sim-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            cursor: pointer;
+            border: 2px solid var(--bg-surface);
+            box-shadow: 0 0 10px var(--accent-cyan-glow);
+            transition: var(--transition-smooth);
+        }
+
+        .sim-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Scientific Button States inside controls */
+        .btn-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 0.75rem;
+            border-radius: 3px;
+        }
+
+        /* Instrumentation readout system */
+        .instrumentation-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .instrumentation-item {
+            background-color: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .instrument-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .instrument-value {
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            color: var(--accent-cyan);
+            font-weight: 500;
+        }
+
+        /* Educational section below */
+        .educational-area {
+            background-color: var(--bg-surface);
+            border-top: 1px solid var(--border-subtle);
+            padding: 48px;
+        }
+
+        .educational-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 60px;
+        }
+
+        .edu-section h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .edu-section p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* Technical equation card */
+        .equation-card {
+            background-color: var(--bg-surface-elevated);
+            border-left: 3px solid var(--accent-cyan);
+            border-radius: 0 4px 4px 0;
+            padding: 24px;
+            margin: 20px 0;
+        }
+
+        .equation-raw {
+            font-family: var(--font-mono);
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .equation-variables {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            border-top: 1px solid var(--border-subtle);
+            padding-top: 12px;
+        }
+
+        .try-challenge-box {
+            background: rgba(138, 43, 226, 0.05);
+            border: 1px dashed rgba(138, 43, 226, 0.3);
+            border-radius: 4px;
+            padding: 24px;
+        }
+
+        .try-challenge-box h4 {
+            color: #b175ff;
+            font-family: var(--font-display);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Creator Signature Footer */
+        .creator-signature {
+            border-top: 1px solid var(--border-subtle);
+            background-color: var(--bg-base);
+            padding: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .creator-signature a {
+            color: var(--accent-cyan);
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .creator-signature a:hover {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+            .canvas-area {
+                border-right: none;
+                border-bottom: 1px solid var(--border-subtle);
+            }
+            .educational-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .browser-layout {
+                grid-template-columns: 1fr;
+            }
+            .browser-sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--border-subtle);
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 0 20px;
+            }
+            nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-overlay"></div>
+
+    <!-- MAIN HEADER -->
+    <header>
+        <div class="logo-container" onclick="App.navigate('home')">
+            <div class="logo-symbol"></div>
+            <div class="logo-text">Physics<span>Lab</span></div>
+        </div>
+        <nav>
+            <a id="nav-home" onclick="App.navigate('home')">Home</a>
+            <a id="nav-browser" onclick="App.navigate('browser')">Lab Browser</a>
+            <div class="nav-status">
+                <span class="status-dot"></span>
+                <span>SYSTEM: READY</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- CONTENT CONTAINER -->
+    <main id="app-viewport">
+        <!-- Dynamically loaded view contents appear here -->
+    </main>
+
+    <!-- FOOTER / SIGNATURE -->
+    <div class="creator-signature">
+        <p>Built by <a href="https://tawsif-dev.vercel.app" target="_blank" rel="noopener noreferrer">Md Abu Tawsif</a> — exploring the intersection of programming, visualization and science.</p>
+    </div>
+
+    <!-- =========================================================
+         APPLICATION CORE & UTILITIES
+         ========================================================= -->
+    <script>
+        /* =========================================================
+           SHARED PHYSICS UTILITIES
+           ========================================================= */
+        const PhysicsUtils = {
+            Vector2: class {
+                constructor(x = 0, y = 0) {
+                    this.x = x;
+                    this.y = y;
+                }
+                set(x, y) { this.x = x; this.y = y; return this; }
+                add(v) { this.x += v.x; this.y += v.y; return this; }
+                sub(v) { this.x -= v.x; this.y -= v.y; return this; }
+                mult(s) { this.x *= s; this.y *= s; return this; }
+                mag() { return Math.hypot(this.x, this.y); }
+                normalize() {
+                    const m = this.mag();
+                    if (m > 0) this.mult(1 / m);
+                    return this;
+                }
+                copy() { return new PhysicsUtils.Vector2(this.x, this.y); }
+            },
+
+            g: 9.80665,
+            k_e: 8.98755e9,
+            c: 299792458,
+            
+            formatValue(val, unit, decimals = 3) {
+                if (val === undefined || isNaN(val)) return `---`;
+                if (Math.abs(val) > 1e6 || (Math.abs(val) < 1e-4 && val !== 0)) {
+                    return `${val.toExponential(decimals)} ${unit}`;
+                }
+                return `${val.toFixed(decimals)} ${unit}`;
+            }
+        };
+
+        /* =========================================================
+           EXPERIMENT REGISTRY
+           ========================================================= */
+        const Registry = {
+            experiments: new Map(),
+            register(experiment) {
+                this.experiments.set(experiment.metadata.id, experiment);
+            },
+            get(id) {
+                return this.experiments.get(id);
+            },
+            getAll() {
+                return Array.from(this.experiments.values());
+            }
+        };
+
+        /* =========================================================
+           APPLICATION CORE ENGINE
+           ========================================================= */
+        const App = {
+            state: {
+                currentView: 'home',
+                activeExperimentId: null,
+                searchQuery: '',
+                selectedCategory: 'All',
+                activeExperiment: null
+            },
+            heroSimId: null,
+
+            init() {
+                this.navigate('home');
+                
+                window.addEventListener('popstate', (e) => {
+                    if (e.state && e.state.view) {
+                        this.navigate(e.state.view, e.state.experimentId, false);
+                    }
+                });
+            },
+
+            navigate(view, experimentId = null, pushState = true) {
+                if (this.state.activeExperiment) {
+                    this.state.activeExperiment.destroy();
+                    this.state.activeExperiment = null;
+                }
+                if (this.heroSimId) {
+                    cancelAnimationFrame(this.heroSimId);
+                    this.heroSimId = null;
+                }
+
+                this.state.currentView = view;
+                this.state.activeExperimentId = experimentId;
+
+                document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                const navLink = document.getElementById(`nav-${view}`);
+                if (navLink) navLink.classList.add('active');
+
+                const viewport = document.getElementById('app-viewport');
+                viewport.innerHTML = '';
+
+                if (pushState) {
+                    const path = experimentId ? `?view=${view}&id=${experimentId}` : `?view=${view}`;
+                    history.pushState({ view, experimentId }, '', path);
+                }
+
+                if (view === 'home') {
+                    this.renderHome(viewport);
+                } else if (view === 'browser') {
+                    this.renderBrowser(viewport);
+                } else if (view === 'experiment' && experimentId) {
+                    this.renderWorkspace(viewport, experimentId);
+                }
+            },
+
+            renderHome(container) {
+                container.innerHTML = `
+                    <section class="hero">
+                        <div class="hero-canvas-container" id="hero-canvas-host"></div>
+                        <div class="hero-pretitle">Digital Scientific Exploration</div>
+                        <h1 class="hero-title">Physics, You Can See.</h1>
+                        <p class="hero-description">Explore the laws of physics through interactive simulations, precise calculations, and visual experiments.</p>
+                        <div style="display: flex; gap: 16px;">
+                            <button class="btn btn-primary" onclick="App.navigate('browser')">Open Laboratory</button>
+                        </div>
+                    </section>
+
+                    <section class="home-section">
+                        <div class="section-header">
+                            <div class="section-title-wrapper">
+                                <h2>Featured Simulations</h2>
+                                <p>Begin running analytical systems and adjusting foundational constants</p>
+                            </div>
+                            <button class="btn" onclick="App.navigate('browser')">View All Systems</button>
+                        </div>
+                        <div class="experiment-grid" id="featured-experiments"></div>
+                    </section>
+                `;
+
+                const grid = document.getElementById('featured-experiments');
+                Registry.getAll().slice(0, 3).forEach(exp => {
+                    grid.appendChild(this.createExperimentCard(exp));
+                });
+
+                this.initHeroSimulation();
+            },
+
+            renderBrowser(container) {
+                container.innerHTML = `
+                    <div class="browser-layout">
+                        <aside class="browser-sidebar">
+                            <div class="sidebar-section">
+                                <h3 class="sidebar-title">Categories</h3>
+                                <ul class="category-list" id="sidebar-categories">
+                                    <li class="category-item active" data-cat="All">
+                                        <span>All Disciplines</span>
+                                        <span class="category-count">${Registry.getAll().length}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </aside>
+                        <main class="browser-main">
+                            <div class="search-bar-container">
+                                <div class="search-input-wrapper">
+                                    <svg class="search-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    <input type="text" class="search-input" id="sim-search" placeholder="Search physical laws, tags, categories..." value="${this.state.searchQuery}">
+                                </div>
+                            </div>
+                            <div class="experiment-grid" id="browser-grid"></div>
+                        </main>
+                    </div>
+                `;
+
+                this.buildSidebarCategories();
+                this.filterExperiments();
+
+                document.getElementById('sim-search').addEventListener('input', (e) => {
+                    this.state.searchQuery = e.target.value;
+                    this.filterExperiments();
+                });
+            },
+
+            buildSidebarCategories() {
+                const sidebar = document.getElementById('sidebar-categories');
+                const categories = new Set(Registry.getAll().map(e => e.metadata.category));
+                
+                categories.forEach(cat => {
+                    const count = Registry.getAll().filter(e => e.metadata.category === cat).length;
+                    const li = document.createElement('li');
+                    li.className = `category-item ${this.state.selectedCategory === cat ? 'active' : ''}`;
+                    li.setAttribute('data-cat', cat);
+                    li.innerHTML = `
+                        <span>${cat}</span>
+                        <span class="category-count">${count}</span>
+                    `;
+                    sidebar.appendChild(li);
+                });
+
+                sidebar.querySelectorAll('.category-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        sidebar.querySelectorAll('.category-item').forEach(li => li.classList.remove('active'));
+                        item.classList.add('active');
+                        this.state.selectedCategory = item.getAttribute('data-cat');
+                        this.filterExperiments();
+                    });
+                });
+            },
+
+            filterExperiments() {
+                const grid = document.getElementById('browser-grid');
+                if (!grid) return;
+                grid.innerHTML = '';
+
+                const query = this.state.searchQuery.toLowerCase();
+                const filtered = Registry.getAll().filter(exp => {
+                    const matchesCategory = this.state.selectedCategory === 'All' || exp.metadata.category === this.state.selectedCategory;
+                    const matchesSearch = exp.metadata.title.toLowerCase().includes(query) || 
+                                          exp.metadata.description.toLowerCase().includes(query) || 
+                                          exp.metadata.tags.some(tag => tag.toLowerCase().includes(query));
+                    return matchesCategory && matchesSearch;
+                });
+
+                if (filtered.length === 0) {
+                    grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 40px;">No simulations matched your query.</div>`;
+                } else {
+                    filtered.forEach(exp => {
+                        grid.appendChild(this.createExperimentCard(exp));
+                    });
+                }
+            },
+
+            createExperimentCard(exp) {
+                const card = document.createElement('div');
+                card.className = 'experiment-card';
+                card.onclick = () => this.navigate('experiment', exp.metadata.id);
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="card-top">
+                            <span class="card-meta">${exp.metadata.subcategory}</span>
+                            <span class="card-difficulty diff-${exp.metadata.difficulty.toLowerCase()}">${exp.metadata.difficulty}</span>
+                        </div>
+                        <h3 class="card-title">${exp.metadata.title}</h3>
+                        <p class="card-description">${exp.metadata.description}</p>
+                    </div>
+                    <div class="card-tags">
+                        ${exp.metadata.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
+                    </div>
+                `;
+                return card;
+            },
+
+            renderWorkspace(container, id) {
+                const exp = Registry.get(id);
+                if (!exp) {
+                    container.innerHTML = `<div>Simulation Not Found.</div>`;
+                    return;
+                }
+
+                this.state.activeExperiment = exp;
+
+                container.innerHTML = `
+                    <div class="workspace">
+                        <div class="workspace-header">
+                            <div>
+                                <div class="breadcrumb"><span onclick="App.navigate('browser')">Lab Browser</span> / ${exp.metadata.category}</div>
+                                <h1 class="workspace-title">${exp.metadata.title}</h1>
+                            </div>
+                            <button class="btn" onclick="App.navigate('browser')">Return to Catalog</button>
+                        </div>
+                        <div class="workspace-grid">
+                            <div class="canvas-area">
+                                <div class="simulation-canvas-wrapper" id="canvas-wrapper-host">
+                                    ${exp.html()}
+                                </div>
+                            </div>
+                            <div class="workspace-sidebar" id="sim-controls-sidebar"></div>
+                        </div>
+                        <div class="educational-area">
+                            <div class="educational-content" id="sim-edu-content"></div>
+                        </div>
+                    </div>
+                `;
+
+                if (exp.css) {
+                    let styleTag = document.getElementById('experiment-custom-styles');
+                    if (!styleTag) {
+                        styleTag = document.createElement('style');
+                        styleTag.id = 'experiment-custom-styles';
+                        document.head.appendChild(styleTag);
+                    }
+                    styleTag.textContent = exp.css();
+                }
+
+                exp.init(document.getElementById('canvas-wrapper-host'));
+            },
+
+            initHeroSimulation() {
+                const container = document.getElementById('hero-canvas-host');
+                if (!container) return;
+
+                const canvas = document.createElement('canvas');
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight || 500;
+                container.appendChild(canvas);
+                const ctx = canvas.getContext('2d');
+
+                const resizeHandler = () => {
+                    canvas.width = container.clientWidth;
+                    canvas.height = container.clientHeight || 500;
+                };
+                window.addEventListener('resize', resizeHandler);
+
+                const particles = [];
+                for (let i = 0; i < 60; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        vx: (Math.random() - 0.5) * 1.5,
+                        vy: (Math.random() - 0.5) * 1.5,
+                        radius: Math.random() * 2 + 1
+                    });
+                }
+
+                const animate = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = "rgba(0, 240, 255, 0.15)";
+                    ctx.strokeStyle = "rgba(0, 240, 255, 0.04)";
+
+                    for (let i = 0; i < particles.length; i++) {
+                        const p = particles[i];
+                        p.x += p.vx;
+                        p.y += p.vy;
+
+                        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        for (let j = i + 1; j < particles.length; j++) {
+                            const p2 = particles[j];
+                            const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                            if (dist < 120) {
+                                ctx.beginPath();
+                                ctx.moveTo(p.x, p.y);
+                                ctx.lineTo(p2.x, p2.y);
+                                ctx.stroke();
+                            }
+                        }
+                    }
+
+                    this.heroSimId = requestAnimationFrame(animate);
+                };
+
+                animate();
+            }
+        };
+
+        /* =========================================================
+           EXPERIMENT 01: PROJECTILE MOTION
+           ========================================================= */
+        const ProjectileMotion = {
+            metadata: {
+                id: "projectile-motion",
+                title: "Projectile Motion Analysis",
+                category: "Mechanics",
+                subcategory: "Kinematics",
+                description: "Simulate trajectories of classical mass points under constant gravitation with vector indicators and optional Stokes air drag coefficients.",
+                difficulty: "Beginner",
+                tags: ["kinematics", "gravity", "trajectory", "vectors"]
+            },
+
+            html() {
+                return `
+                    <canvas class="simulation-canvas" id="canvas-projectile"></canvas>
+                    <div class="canvas-toolbar">
+                        <button class="toolbar-btn active" id="btn-play-proj">◀▶</button>
+                        <button class="toolbar-btn" id="btn-reset-proj">↻</button>
+                    </div>
+                `;
+            },
+
+            css() {
+                return ``;
+            },
+
+            init(container) {
+                const canvas = document.getElementById('canvas-projectile');
+                const ctx = canvas.getContext('2d');
+                
+                // Track dynamic dimensions
+                const resize = () => {
+                    const rect = canvas.parentNode.getBoundingClientRect();
+                    canvas.width = rect.width * window.devicePixelRatio;
+                    canvas.height = rect.height * window.devicePixelRatio;
+                    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                };
+                window.addEventListener('resize', resize);
+                resize();
+
+                // Initial parameters
+                const params = {
+                    v0: 30,      // m/s
+                    theta: 45,   // degrees
+                    h0: 0,       // m
+                    g: 9.81,     // m/s^2
+                    drag: 0.1,   // drag coeff
+                    play: true
+                };
+
+                // Physics state
+                let t = 0;
+                let path = [];
+                let finished = false;
+
+                const getPositionAt = (time) => {
+                    const angleRad = (params.theta * Math.PI) / 180;
+                    const vx0 = params.v0 * Math.cos(angleRad);
+                    const vy0 = params.v0 * Math.sin(angleRad);
+
+                    if (params.drag === 0) {
+                        const x = vx0 * time;
+                        const y = params.h0 + vy0 * time - 0.5 * params.g * time * time;
+                        const vx = vx0;
+                        const vy = vy0 - params.g * time;
+                        return { x, y, vx, vy };
+                    } else {
+                        // Analytical solution to linear air resistance (Stokes' Drag)
+                        const k = params.drag;
+                        const x = (vx0 / k) * (1 - Math.exp(-k * time));
+                        const y = params.h0 + (1 / k) * (vy0 + params.g / k) * (1 - Math.exp(-k * time)) - (params.g * time) / k;
+                        const vx = vx0 * Math.exp(-k * time);
+                        const vy = (vy0 + params.g / k) * Math.exp(-k * time) - params.g / k;
+                        return { x, y, vx, vy };
+                    }
+                };
+
+                const updateControlsPanel = () => {
+                    const controls = document.getElementById('sim-controls-sidebar');
+                    controls.innerHTML = `
+                        <div class="sidebar-panel">
+                            <h3 class="sidebar-panel-title">Initial Configuration</h3>
+                            
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Launch Velocity (v₀)</span>
+                                    <span class="control-value" id="val-v0">${params.v0} m/s</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-v0" min="5" max="50" step="1" value="${params.v0}">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Launch Angle (θ)</span>
+                                    <span class="control-value" id="val-theta">${params.theta}°</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-theta" min="0" max="90" step="1" value="${params.theta}">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Initial Height (h₀)</span>
+                                    <span class="control-value" id="val-h0">${params.h0} m</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-h0" min="0" max="25" step="1" value="${params.h0}">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Gravitational Field (g)</span>
+                                    <span class="control-value" id="val-g">${params.g} m/s²</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-g" min="1" max="25" step="0.1" value="${params.g}">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Air Drag Coefficient (γ)</span>
+                                    <span class="control-value" id="val-drag">${params.drag.toFixed(2)}</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-drag" min="0" max="0.8" step="0.05" value="${params.drag}">
+                            </div>
+                        </div>
+
+                        <div class="sidebar-panel">
+                            <h3 class="sidebar-panel-title">Telemetry Readouts</h3>
+                            <div class="instrumentation-list">
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Flight Time (t)</span>
+                                    <span class="instrument-value" id="tele-t">0.000 s</span>
+                                </div>
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Horizontal Range (x)</span>
+                                    <span class="instrument-value" id="tele-x">0.000 m</span>
+                                </div>
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Current Altitude (y)</span>
+                                    <span class="instrument-value" id="tele-y">0.000 m</span>
+                                </div>
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Velocity vector (v)</span>
+                                    <span class="instrument-value" id="tele-v">0.000 m/s</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Bind listeners
+                    const bindSlider = (id, targetKey, valId, suffix) => {
+                        document.getElementById(id).addEventListener('input', (e) => {
+                            params[targetKey] = parseFloat(e.target.value);
+                            document.getElementById(valId).textContent = params[targetKey] + suffix;
+                            resetSim();
+                        });
+                    };
+
+                    bindSlider('slider-v0', 'v0', 'val-v0', ' m/s');
+                    bindSlider('slider-theta', 'theta', 'val-theta', '°');
+                    bindSlider('slider-h0', 'h0', 'val-h0', ' m');
+                    bindSlider('slider-g', 'g', 'val-g', ' m/s²');
+                    
+                    document.getElementById('slider-drag').addEventListener('input', (e) => {
+                        params.drag = parseFloat(e.target.value);
+                        document.getElementById('val-drag').textContent = params.drag.toFixed(2);
+                        resetSim();
+                    });
+                };
+
+                const updateEduPanel = () => {
+                    const edu = document.getElementById('sim-edu-content');
+                    edu.innerHTML = `
+                        <div class="edu-section">
+                            <h3>Theoretical Analysis</h3>
+                            <p>An idealized projectile moves under horizontal inertia and vertical gravity. With linear Stokes drag force acting opposite to the instantaneous velocity path vector ($F_d = -\gamma \vec{v}$), the equation of motion is decoupled as:</p>
+                            
+                            <div class="equation-card">
+                                <div class="equation-raw">m \\frac{d\\vec{v}}{dt} = m\\vec{g} - \\gamma\\vec{v}</div>
+                                <div class="equation-variables">
+                                    <span><strong>&gamma;</strong> — Drag Coefficient</span>
+                                    <span><strong>v</strong> — Instantaneous velocity</span>
+                                    <span><strong>g</strong> — Local gravity acceleration</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="edu-section">
+                            <div class="try-challenge-box">
+                                <h4>Interactive Challenges</h4>
+                                <p>1. <strong>Optimize trajectory:</strong> Set drag ($\gamma$) to 0. Find the launch angle that maximizes horizontal range.</p>
+                                <p>2. <strong>Terminal deceleration:</strong> Push the air drag parameter up to 0.8 and note how the trajectory shifts from a standard parabolic arch into an asymmetric decay curve.</p>
+                            </div>
+                        </div>
+                    `;
+                };
+
+                const resetSim = () => {
+                    t = 0;
+                    path = [];
+                    finished = false;
+                };
+
+                document.getElementById('btn-reset-proj').onclick = () => resetSim();
+                const playBtn = document.getElementById('btn-play-proj');
+                playBtn.onclick = () => {
+                    params.play = !params.play;
+                    playBtn.classList.toggle('active', params.play);
+                };
+
+                updateControlsPanel();
+                updateEduPanel();
+
+                let animId;
+                const renderLoop = () => {
+                    if (!canvas || !canvas.getContext) return;
+                    
+                    const w = canvas.width / window.devicePixelRatio;
+                    const h = canvas.height / window.devicePixelRatio;
+                    ctx.clearRect(0, 0, w, h);
+
+                    // Physics update
+                    if (params.play && !finished) {
+                        t += 0.04;
+                        const state = getPositionAt(t);
+                        if (state.y < 0 && t > 0.1) {
+                            finished = true;
+                        } else {
+                            path.push(state);
+                        }
+                    }
+
+                    // Scalings (Metres to canvas pixels)
+                    const scaleX = (w - 100) / 100; // Assume 100m width domain
+                    const scaleY = (h - 100) / 50;  // Assume 50m height domain
+                    const originX = 50;
+                    const originY = h - 50;
+
+                    const toCanvasX = (mx) => originX + mx * scaleX;
+                    const toCanvasY = (my) => originY - my * scaleY;
+
+                    // Draw coordinate axis
+                    ctx.strokeStyle = '#20262d';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(originX, 0); ctx.lineTo(originX, h);
+                    ctx.moveTo(0, originY); ctx.lineTo(w, originY);
+                    ctx.stroke();
+
+                    // Grid text label markers
+                    ctx.fillStyle = '#484f58';
+                    ctx.font = '9px monospace';
+                    for (let xDist = 0; xDist <= 100; xDist += 20) {
+                        ctx.fillText(`${xDist}m`, toCanvasX(xDist) - 10, originY + 16);
+                    }
+                    for (let yDist = 10; yDist <= 50; yDist += 10) {
+                        ctx.fillText(`${yDist}m`, originX - 30, toCanvasY(yDist) + 4);
+                    }
+
+                    // Render traced trajectory line
+                    if (path.length > 0) {
+                        ctx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.moveTo(toCanvasX(0), toCanvasY(params.h0));
+                        for (let step of path) {
+                            ctx.lineTo(toCanvasX(step.x), toCanvasY(step.y));
+                        }
+                        ctx.stroke();
+
+                        // Current active object point
+                        const current = path[path.length - 1];
+                        ctx.fillStyle = 'var(--accent-cyan)';
+                        ctx.beginPath();
+                        ctx.arc(toCanvasX(current.x), toCanvasY(current.y), 6, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        // Render Velocity Vector Arrow (Cyan)
+                        const vectorFactor = 0.5;
+                        ctx.strokeStyle = 'var(--accent-orange)';
+                        ctx.lineWidth = 1.5;
+                        ctx.beginPath();
+                        ctx.moveTo(toCanvasX(current.x), toCanvasY(current.y));
+                        ctx.lineTo(
+                            toCanvasX(current.x + current.vx * vectorFactor), 
+                            toCanvasY(current.y + current.vy * vectorFactor)
+                        );
+                        ctx.stroke();
+
+                        // Telemetry output labels
+                        document.getElementById('tele-t').textContent = t.toFixed(3) + ' s';
+                        document.getElementById('tele-x').textContent = current.x.toFixed(2) + ' m';
+                        document.getElementById('tele-y').textContent = Math.max(0, current.y).toFixed(2) + ' m';
+                        document.getElementById('tele-v').textContent = Math.hypot(current.vx, current.vy).toFixed(2) + ' m/s';
+                    } else {
+                        // Reset Telemetry display
+                        document.getElementById('tele-t').textContent = '0.000 s';
+                        document.getElementById('tele-x').textContent = '0.000 m';
+                        document.getElementById('tele-y').textContent = params.h0.toFixed(2) + ' m';
+                        document.getElementById('tele-v').textContent = params.v0.toFixed(2) + ' m/s';
+
+                        // Starting state visualization
+                        ctx.fillStyle = 'var(--accent-cyan)';
+                        ctx.beginPath();
+                        ctx.arc(toCanvasX(0), toCanvasY(params.h0), 6, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+
+                    animId = requestAnimationFrame(renderLoop);
+                };
+
+                renderLoop();
+
+                // Cleanup hook
+                this.destroy = () => {
+                    cancelAnimationFrame(animId);
+                    window.removeEventListener('resize', resize);
+                };
+            }
+        };
+        Registry.register(ProjectileMotion);
+
+        /* =========================================================
+           EXPERIMENT 02: SIMPLE PENDULUM
+           ========================================================= */
+        const SimplePendulum = {
+            metadata: {
+                id: "simple-pendulum",
+                title: "Harmonic Pendulum Dynamics",
+                category: "Mechanics",
+                subcategory: "Oscillations",
+                description: "Observe simple harmonic motion and phase-space dynamics with accurate multi-step Runge-Kutta integration mechanics.",
+                difficulty: "Intermediate",
+                tags: ["oscillations", "gravity", "energy", "runge-kutta"]
+            },
+
+            html() {
+                return `
+                    <canvas class="simulation-canvas" id="canvas-pendulum"></canvas>
+                    <div class="canvas-toolbar">
+                        <button class="toolbar-btn active" id="btn-play-pend">◀▶</button>
+                        <button class="toolbar-btn" id="btn-reset-pend">↻</button>
+                    </div>
+                `;
+            },
+
+            init(container) {
+                const canvas = document.getElementById('canvas-pendulum');
+                const ctx = canvas.getContext('2d');
+
+                const resize = () => {
+                    const rect = canvas.parentNode.getBoundingClientRect();
+                    canvas.width = rect.width * window.devicePixelRatio;
+                    canvas.height = rect.height * window.devicePixelRatio;
+                    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                };
+                window.addEventListener('resize', resize);
+                resize();
+
+                const params = {
+                    L: 5,        // meters
+                    m: 2.0,      // kg
+                    theta0: 45,  // initial angle in degrees
+                    g: 9.81,
+                    damping: 0.1,
+                    play: true
+                };
+
+                // State variables
+                let theta = (params.theta0 * Math.PI) / 180;
+                let omega = 0; // Angular velocity
+                let timeAccumulator = 0;
+
+                const updateControlsPanel = () => {
+                    const controls = document.getElementById('sim-controls-sidebar');
+                    controls.innerHTML = `
+                        <div class="sidebar-panel">
+                            <h3 class="sidebar-panel-title">System Constants</h3>
+                            
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">String Length (L)</span>
+                                    <span class="control-value" id="val-L">${params.L} m</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-L" min="1" max="10" step="0.5" value="${params.L}">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Bob Mass (m)</span>
+                                    <span class="control-value" id="val-m">${params.m} kg</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-m" min="0.5" max="8" step="0.1" value="${params.m}">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Initial Deflection (θ₀)</span>
+                                    <span class="control-value" id="val-th0">${params.theta0}°</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-th0" min="-90" max="90" step="5" value="${params.theta0}">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Friction / Damping</span>
+                                    <span class="control-value" id="val-damp">${params.damping.toFixed(2)}</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-damp" min="0" max="1" step="0.05" value="${params.damping}">
+                            </div>
+                        </div>
+
+                        <div class="sidebar-panel">
+                            <h3 class="sidebar-panel-title">Real-Time Energies</h3>
+                            <div class="instrumentation-list">
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Theoretical Period (T)</span>
+                                    <span class="instrument-value" id="tele-T">---</span>
+                                </div>
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Kinetic Energy (K)</span>
+                                    <span class="instrument-value" id="tele-ke">0.000 J</span>
+                                </div>
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Potential Energy (U)</span>
+                                    <span class="instrument-value" id="tele-pe">0.000 J</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    document.getElementById('slider-L').addEventListener('input', (e) => {
+                        params.L = parseFloat(e.target.value);
+                        document.getElementById('val-L').textContent = params.L + ' m';
+                    });
+                    document.getElementById('slider-m').addEventListener('input', (e) => {
+                        params.m = parseFloat(e.target.value);
+                        document.getElementById('val-m').textContent = params.m + ' kg';
+                    });
+                    document.getElementById('slider-th0').addEventListener('input', (e) => {
+                        params.theta0 = parseFloat(e.target.value);
+                        document.getElementById('val-th0').textContent = params.theta0 + '°';
+                        resetSim();
+                    });
+                    document.getElementById('slider-damp').addEventListener('input', (e) => {
+                        params.damping = parseFloat(e.target.value);
+                        document.getElementById('val-damp').textContent = params.damping.toFixed(2);
+                    });
+                };
+
+                const updateEduPanel = () => {
+                    const edu = document.getElementById('sim-edu-content');
+                    edu.innerHTML = `
+                        <div class="edu-section">
+                            <h3>Theoretical Analysis</h3>
+                            <p>For a physical simple pendulum, we resolve the angular acceleration relative to gravitational displacement along the arc, integrated using an explicit Fourth-Order Runge-Kutta numerical solver:</p>
+                            
+                            <div class="equation-card">
+                                <div class="equation-raw">\\frac{d^2\\theta}{dt^2} + \\frac{b}{m}\\frac{d\\theta}{dt} + \\frac{g}{L}\\sin(\\theta) = 0</div>
+                                <div class="equation-variables">
+                                    <span><strong>&theta;</strong> — Angular Displacement</span>
+                                    <span><strong>b</strong> — Air damping scale</span>
+                                    <span><strong>g/L</strong> — Gravitation-to-Length ratio</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="edu-section">
+                            <div class="try-challenge-box">
+                                <h4>Interactive Challenges</h4>
+                                <p>1. <strong>Examine Energy Conservation:</strong> Drop damping to 0. Watch how Kinetic and Potential values oscillate in direct inverse phase synchronization, preserving constant total mechanical energy.</p>
+                                <p>2. <strong>High-Angle Anharmonicity:</strong> Increase initial deflection deflection ($\theta$) up to 90 degrees. Compare the real oscillation period to the small-angle approximation ($2\pi\sqrt{L/g}$).</p>
+                            </div>
+                        </div>
+                    `;
+                };
+
+                const resetSim = () => {
+                    theta = (params.theta0 * Math.PI) / 180;
+                    omega = 0;
+                    timeAccumulator = 0;
+                };
+
+                document.getElementById('btn-reset-pend').onclick = () => resetSim();
+                const playBtn = document.getElementById('btn-play-pend');
+                playBtn.onclick = () => {
+                    params.play = !params.play;
+                    playBtn.classList.toggle('active', params.play);
+                };
+
+                updateControlsPanel();
+                updateEduPanel();
+
+                // RK4 Numerical Integration equations
+                const derivatives = (th, om) => {
+                    const dth = om;
+                    const dom = -(params.g / params.L) * Math.sin(th) - (params.damping / params.m) * om;
+                    return [dth, dom];
+                };
+
+                const integrateRK4 = (dt) => {
+                    const [k1_th, k1_om] = derivatives(theta, omega);
+                    const [k2_th, k2_om] = derivatives(theta + 0.5 * dt * k1_th, omega + 0.5 * dt * k1_om);
+                    const [k3_th, k3_om] = derivatives(theta + 0.5 * dt * k2_th, omega + 0.5 * dt * k2_om);
+                    const [k4_th, k4_om] = derivatives(theta + dt * k3_th, omega + dt * k3_om);
+
+                    theta += (dt / 6) * (k1_th + 2 * k2_th + 2 * k3_th + k4_th);
+                    omega += (dt / 6) * (k1_om + 2 * k2_om + 2 * k3_om + k4_om);
+                };
+
+                let animId;
+                const renderLoop = () => {
+                    if (!canvas || !canvas.getContext) return;
+                    const w = canvas.width / window.devicePixelRatio;
+                    const h = canvas.height / window.devicePixelRatio;
+                    ctx.clearRect(0, 0, w, h);
+
+                    const originX = w / 2;
+                    const originY = 80;
+
+                    // Fixed Timestep physics iteration loop
+                    if (params.play) {
+                        const fixedDt = 0.016;
+                        integrateRK4(fixedDt);
+                    }
+
+                    // Render Bob positions
+                    const bobLength = params.L * 30; // visual scaling
+                    const bobX = originX + bobLength * Math.sin(theta);
+                    const bobY = originY + bobLength * Math.cos(theta);
+
+                    // String support line
+                    ctx.strokeStyle = '#20262d';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(originX - 30, originY);
+                    ctx.lineTo(originX + 30, originY);
+                    ctx.stroke();
+
+                    ctx.strokeStyle = '#8b949e';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(originX, originY);
+                    ctx.lineTo(bobX, bobY);
+                    ctx.stroke();
+
+                    // Active pendulum bob sphere
+                    ctx.fillStyle = 'var(--accent-cyan)';
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = 'var(--accent-cyan-glow)';
+                    ctx.beginPath();
+                    ctx.arc(bobX, bobY, 10 + params.m * 2, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0; // reset
+
+                    // Calculations for scientific values
+                    const referenceY = originY + bobLength; // zero potential energy reference point
+                    const relativeHeight = bobLength - bobLength * Math.cos(theta); // Height of bob relative to lowest point
+                    
+                    const gHeightReal = params.L * (1 - Math.cos(theta));
+                    const vReal = omega * params.L;
+
+                    const PE = params.m * params.g * gHeightReal;
+                    const KE = 0.5 * params.m * vReal * vReal;
+                    const theoreticalPeriod = 2 * Math.PI * Math.sqrt(params.L / params.g);
+
+                    document.getElementById('tele-T').textContent = theoreticalPeriod.toFixed(3) + ' s';
+                    document.getElementById('tele-pe').textContent = PE.toFixed(3) + ' J';
+                    document.getElementById('tele-ke').textContent = KE.toFixed(3) + ' J';
+
+                    // Draw Energy bars dynamically onto the simulation frame itself
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+                    ctx.fillRect(20, h - 100, 12, 80);
+                    ctx.fillRect(40, h - 100, 12, 80);
+
+                    const scaledKE = Math.min(80, KE * 2);
+                    const scaledPE = Math.min(80, PE * 2);
+
+                    ctx.fillStyle = 'var(--accent-orange)';
+                    ctx.fillRect(20, h - 20 - scaledKE, 12, scaledKE);
+                    ctx.fillStyle = 'var(--accent-cyan)';
+                    ctx.fillRect(40, h - 20 - scaledPE, 12, scaledPE);
+
+                    ctx.fillStyle = '#484f58';
+                    ctx.font = '8px monospace';
+                    ctx.fillText('KE', 20, h - 8);
+                    ctx.fillText('PE', 40, h - 8);
+
+                    animId = requestAnimationFrame(renderLoop);
+                };
+
+                renderLoop();
+
+                this.destroy = () => {
+                    cancelAnimationFrame(animId);
+                    window.removeEventListener('resize', resize);
+                };
+            }
+        };
+        Registry.register(SimplePendulum);
+
+        /* =========================================================
+           EXPERIMENT 03: ELECTRIC FIELD OF MULTIPLE CHARGES
+           ========================================================= */
+        const ElectricField = {
+            metadata: {
+                id: "electric-field",
+                title: "Electrostatic Fields of Point Charges",
+                category: "Electricity",
+                subcategory: "Electrostatics",
+                description: "Map topological electric vectors and field lines in continuous space using multiple arbitrary configuration charges.",
+                difficulty: "Advanced",
+                tags: ["electrostatics", "field-lines", "charge", "superposition"]
+            },
+
+            html() {
+                return `
+                    <canvas class="simulation-canvas" id="canvas-field"></canvas>
+                    <div class="canvas-toolbar">
+                        <button class="toolbar-btn btn-small btn-primary" id="btn-add-pos" style="width: auto; padding: 0 8px;">+ Positive</button>
+                        <button class="toolbar-btn btn-small" id="btn-add-neg" style="color: var(--accent-orange); width: auto; padding: 0 8px;">- Negative</button>
+                        <button class="toolbar-btn" id="btn-clear-charges">↻ Reset</button>
+                    </div>
+                `;
+            },
+
+            init(container) {
+                const canvas = document.getElementById('canvas-field');
+                const ctx = canvas.getContext('2d');
+
+                const resize = () => {
+                    const rect = canvas.parentNode.getBoundingClientRect();
+                    canvas.width = rect.width * window.devicePixelRatio;
+                    canvas.height = rect.height * window.devicePixelRatio;
+                    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                };
+                window.addEventListener('resize', resize);
+                resize();
+
+                // Array of charges: { x, y, q (uC) }
+                const charges = [
+                    { x: 250, y: 150, q: 2.0 },
+                    { x: 450, y: 250, q: -2.0 }
+                ];
+
+                let selectedChargeIdx = -1;
+                let dragOffset = { x: 0, y: 0 };
+                let testPoint = { x: 350, y: 200 };
+                let draggingTestPoint = false;
+
+                const updateControlsPanel = () => {
+                    const controls = document.getElementById('sim-controls-sidebar');
+                    controls.innerHTML = `
+                        <div class="sidebar-panel">
+                            <h3 class="sidebar-panel-title">Selected charge</h3>
+                            <div id="charge-editor-area">
+                                <p style="font-size: 0.8rem; color: var(--text-secondary);">Click on a charge to change its strength or delete it entirely.</p>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-panel">
+                            <h3 class="sidebar-panel-title">Field Instrumentation</h3>
+                            <div class="instrumentation-list">
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">E-Field Magnitude</span>
+                                    <span class="instrument-value" id="tele-e-mag">0.00e0 N/C</span>
+                                </div>
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Position Coordinate</span>
+                                    <span class="instrument-value" id="tele-e-pos">x: 0, y: 0</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                };
+
+                const updateEduPanel = () => {
+                    const edu = document.getElementById('sim-edu-content');
+                    edu.innerHTML = `
+                        <div class="edu-section">
+                            <h3>Coulombs Field Equations</h3>
+                            <p>The electric field at any spatial coordinate point is determined using vector superposition, accumulating individual static Coulomb force vectors generated by each charged particle:</p>
+                            
+                            <div class="equation-card">
+                                <div class="equation-raw">\\vec{E}(\\vec{r}) = \\sum_{i} \\frac{k_e q_i}{|\\vec{r} - \\vec{r}_i|^2} \\hat{u}_i</div>
+                                <div class="equation-variables">
+                                    <span><strong>k_e</strong> — Coulomb Constant (8.988 &times; 10⁹ N&middot;m²/C²)</span>
+                                    <span><strong>q_i</strong> — Individual point source magnitude</span>
+                                    <span><strong>u_i</strong> — Unit directional vector</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="edu-section">
+                            <div class="try-challenge-box">
+                                <h4>Interactive Challenges</h4>
+                                <p>1. <strong>Create an Electric Dipole:</strong> Maintain one positive and one negative charge of equal strength close together. Observe how field lines exit from the positive and enter the negative charge.</p>
+                                <p>2. <strong>Field Cancelation (Null point):</strong> Put two positive charges of equal strength near each other. Examine the exact point directly between them; note how the vectors diminish and cancel out completely.</p>
+                            </div>
+                        </div>
+                    `;
+                };
+
+                const calculateFieldAt = (x, y) => {
+                    const E = new PhysicsUtils.Vector2(0, 0);
+                    const k = 8.98755e3; // Rescaled for canvas metrics
+                    
+                    for (let q of charges) {
+                        const dx = x - q.x;
+                        const dy = y - q.y;
+                        const distSqr = dx * dx + dy * dy;
+                        const dist = Math.sqrt(distSqr);
+
+                        if (dist < 15) continue; // Avoid singularity infinity at charge coordinate
+
+                        const mag = (k * q.q) / distSqr;
+                        E.x += mag * (dx / dist);
+                        E.y += mag * (dy / dist);
+                    }
+                    return E;
+                };
+
+                // Mouse interaction handlers
+                const getMousePos = (e) => {
+                    const rect = canvas.getBoundingClientRect();
+                    return {
+                        x: e.clientX - rect.left,
+                        y: e.clientY - rect.top
+                    };
+                };
+
+                const mousedownHandler = (e) => {
+                    const pos = getMousePos(e);
+                    
+                    // Check if test point clicked
+                    const dTest = Math.hypot(pos.x - testPoint.x, pos.y - testPoint.y);
+                    if (dTest < 12) {
+                        draggingTestPoint = true;
+                        return;
+                    }
+
+                    // Check charges
+                    for (let i = 0; i < charges.length; i++) {
+                        const d = Math.hypot(pos.x - charges[i].x, pos.y - charges[i].y);
+                        if (d < 16) {
+                            selectedChargeIdx = i;
+                            dragOffset.x = pos.x - charges[i].x;
+                            dragOffset.y = pos.y - charges[i].y;
+                            showChargeEditor(i);
+                            return;
+                        }
+                    }
+
+                    selectedChargeIdx = -1;
+                    showChargeEditor(-1);
+                };
+
+                const mousemoveHandler = (e) => {
+                    if (!canvas) return;
+                    const pos = getMousePos(e);
+
+                    if (draggingTestPoint) {
+                        testPoint.x = pos.x;
+                        testPoint.y = pos.y;
+                    } else if (selectedChargeIdx !== -1) {
+                        charges[selectedChargeIdx].x = pos.x - dragOffset.x;
+                        charges[selectedChargeIdx].y = pos.y - dragOffset.y;
+                    }
+                };
+
+                const mouseupHandler = () => {
+                    draggingTestPoint = false;
+                };
+
+                canvas.addEventListener('mousedown', mousedownHandler);
+                canvas.addEventListener('mousemove', mousemoveHandler);
+                window.addEventListener('mouseup', mouseupHandler);
+
+                const showChargeEditor = (idx) => {
+                    const area = document.getElementById('charge-editor-area');
+                    if (!area) return;
+                    if (idx === -1) {
+                        area.innerHTML = `<p style="font-size: 0.8rem; color: var(--text-secondary);">Click on a charge to change its strength or delete it entirely.</p>`;
+                        return;
+                    }
+
+                    const charge = charges[idx];
+                    area.innerHTML = `
+                        <div class="control-group">
+                            <div class="control-label-wrapper">
+                                <span class="control-label">Magnitude (q)</span>
+                                <span class="control-value" id="val-charge-q">${charge.q.toFixed(1)} &mu;C</span>
+                            </div>
+                            <input type="range" class="sim-slider" id="slider-charge-q" min="-5" max="5" step="0.5" value="${charge.q}">
+                        </div>
+                        <button class="btn btn-small" id="btn-delete-charge" style="background: var(--accent-red); width: 100%; border-color: var(--accent-red);">Remove Charge</button>
+                    `;
+
+                    document.getElementById('slider-charge-q').addEventListener('input', (e) => {
+                        charge.q = parseFloat(e.target.value);
+                        document.getElementById('val-charge-q').textContent = charge.q.toFixed(1) + ' \u03BCC';
+                    });
+
+                    document.getElementById('btn-delete-charge').onclick = () => {
+                        charges.splice(idx, 1);
+                        selectedChargeIdx = -1;
+                        showChargeEditor(-1);
+                    };
+                };
+
+                document.getElementById('btn-add-pos').onclick = () => {
+                    charges.push({ x: 100 + Math.random() * 200, y: 100 + Math.random() * 200, q: 2.0 });
+                };
+
+                document.getElementById('btn-add-neg').onclick = () => {
+                    charges.push({ x: 100 + Math.random() * 200, y: 100 + Math.random() * 200, q: -2.0 });
+                };
+
+                document.getElementById('btn-clear-charges').onclick = () => {
+                    charges.length = 0;
+                    selectedChargeIdx = -1;
+                    showChargeEditor(-1);
+                };
+
+                updateControlsPanel();
+                updateEduPanel();
+
+                let animId;
+                const renderLoop = () => {
+                    if (!canvas || !canvas.getContext) return;
+                    const w = canvas.width / window.devicePixelRatio;
+                    const h = canvas.height / window.devicePixelRatio;
+                    ctx.clearRect(0, 0, w, h);
+
+                    // Draw field direction vector fields (Subtle direction indicator grid)
+                    const gridStep = 30;
+                    for (let x = gridStep / 2; x < w; x += gridStep) {
+                        for (let y = gridStep / 2; y < h; y += gridStep) {
+                            const f = calculateFieldAt(x, y);
+                            const mag = f.mag();
+                            if (mag > 0.01) {
+                                f.normalize();
+                                const alpha = Math.min(0.6, mag / 200); // field intensity opacity
+                                ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
+                                ctx.lineWidth = 1;
+                                ctx.beginPath();
+                                ctx.moveTo(x - f.x * 6, y - f.y * 6);
+                                ctx.lineTo(x + f.x * 6, y + f.y * 6);
+                                ctx.stroke();
+                            }
+                        }
+                    }
+
+                    // Render Charges
+                    for (let q of charges) {
+                        const gradient = ctx.createRadialGradient(q.x, q.y, 2, q.x, q.y, 16);
+                        if (q.q > 0) {
+                            gradient.addColorStop(0, '#ff4a4a');
+                            gradient.addColorStop(1, 'rgba(255, 74, 74, 0)');
+                        } else {
+                            gradient.addColorStop(0, '#1f6feb');
+                            gradient.addColorStop(1, 'rgba(31, 111, 235, 0)');
+                        }
+
+                        ctx.fillStyle = gradient;
+                        ctx.beginPath();
+                        ctx.arc(q.x, q.y, 16, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        // Charge central core
+                        ctx.fillStyle = q.q > 0 ? '#ff4a4a' : '#1f6feb';
+                        ctx.beginPath();
+                        ctx.arc(q.x, q.y, 6, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        ctx.fillStyle = '#fff';
+                        ctx.font = '10px sans-serif';
+                        ctx.fillText(q.q > 0 ? '+' : '-', q.x - 3, q.y + 3);
+                    }
+
+                    // Draw active draggable measurement Test Probe
+                    ctx.fillStyle = 'var(--accent-yellow)';
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = 'rgba(255, 215, 0, 0.4)';
+                    ctx.beginPath();
+                    ctx.arc(testPoint.x, testPoint.y, 6, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+
+                    // Calculate field at Probe
+                    const testField = calculateFieldAt(testPoint.x, testPoint.y);
+                    const testMag = testField.mag();
+
+                    // Arrow line
+                    if (testMag > 0.1) {
+                        const arrowScale = 0.5;
+                        ctx.strokeStyle = 'var(--accent-yellow)';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.moveTo(testPoint.x, testPoint.y);
+                        ctx.lineTo(testPoint.x + testField.x * arrowScale, testPoint.y + testField.y * arrowScale);
+                        ctx.stroke();
+                    }
+
+                    document.getElementById('tele-e-mag').textContent = testMag.toExponential(3) + ' N/C';
+                    document.getElementById('tele-e-pos').textContent = `x: ${testPoint.x.toFixed(0)}, y: ${(h - testPoint.y).toFixed(0)}`;
+
+                    animId = requestAnimationFrame(renderLoop);
+                };
+
+                renderLoop();
+
+                this.destroy = () => {
+                    cancelAnimationFrame(animId);
+                    window.removeEventListener('resize', resize);
+                    canvas.removeEventListener('mousedown', mousedownHandler);
+                    canvas.removeEventListener('mousemove', mousemoveHandler);
+                    window.removeEventListener('mouseup', mouseupHandler);
+                };
+            }
+        };
+        Registry.register(ElectricField);
+
+        /* =========================================================
+           EXPERIMENT 04: CONVEX LENS
+           ========================================================= */
+        const ConvexLens = {
+            metadata: {
+                id: "convex-lens",
+                title: "Ray Geometries of Convex Lenses",
+                category: "Optics",
+                subcategory: "Lenses",
+                description: "Map thin spherical lens principal optical rays interactively to study focal configurations and magnification matrices.",
+                difficulty: "Beginner",
+                tags: ["optics", "lenses", "refraction", "rays"]
+            },
+
+            html() {
+                return `
+                    <canvas class="simulation-canvas" id="canvas-lens"></canvas>
+                `;
+            },
+
+            init(container) {
+                const canvas = document.getElementById('canvas-lens');
+                const ctx = canvas.getContext('2d');
+
+                const resize = () => {
+                    const rect = canvas.parentNode.getBoundingClientRect();
+                    canvas.width = rect.width * window.devicePixelRatio;
+                    canvas.height = rect.height * window.devicePixelRatio;
+                    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                };
+                window.addEventListener('resize', resize);
+                resize();
+
+                const params = {
+                    f: 120, // Focal length
+                    u: 240, // Object distance
+                    h: 60   // Object height
+                };
+
+                let draggingObject = false;
+
+                const updateControlsPanel = () => {
+                    const controls = document.getElementById('sim-controls-sidebar');
+                    controls.innerHTML = `
+                        <div class="sidebar-panel">
+                            <h3 class="sidebar-panel-title">Optical Parameters</h3>
+                            
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Focal Length (f)</span>
+                                    <span class="control-value" id="val-f">${params.f} px</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-f" min="60" max="200" step="5" value="${params.f}">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Object Distance (u)</span>
+                                    <span class="control-value" id="val-u">${params.u} px</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-u" min="70" max="400" step="5" value="${params.u}">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Object Height (h)</span>
+                                    <span class="control-value" id="val-h">${params.h} px</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-h" min="10" max="100" step="5" value="${params.h}">
+                            </div>
+                        </div>
+
+                        <div class="sidebar-panel">
+                            <h3 class="sidebar-panel-title">Lens Telemetry</h3>
+                            <div class="instrumentation-list">
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Image Distance (v)</span>
+                                    <span class="instrument-value" id="tele-v">---</span>
+                                </div>
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Magnification (m)</span>
+                                    <span class="instrument-value" id="tele-m">---</span>
+                                </div>
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Image Type</span>
+                                    <span class="instrument-value" id="tele-type">---</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    document.getElementById('slider-f').addEventListener('input', (e) => {
+                        params.f = parseFloat(e.target.value);
+                        document.getElementById('val-f').textContent = params.f + ' px';
+                    });
+                    document.getElementById('slider-u').addEventListener('input', (e) => {
+                        params.u = parseFloat(e.target.value);
+                        document.getElementById('val-u').textContent = params.u + ' px';
+                    });
+                    document.getElementById('slider-h').addEventListener('input', (e) => {
+                        params.h = parseFloat(e.target.value);
+                        document.getElementById('val-h').textContent = params.h + ' px';
+                    });
+                };
+
+                const updateEduPanel = () => {
+                    const edu = document.getElementById('sim-edu-content');
+                    edu.innerHTML = `
+                        <div class="edu-section">
+                            <h3>Thin Lens Equation</h3>
+                            <p>For standard geometric thin lenses, the relationship between focal parameters, object coordinates, and projected conjugate image planes is governed by classical gaussian optics:</p>
+                            
+                            <div class="equation-card">
+                                <div class="equation-raw">\\frac{1}{f} = \\frac{1}{u} + \\frac{1}{v}</div>
+                                <div class="equation-variables">
+                                    <span><strong>f</strong> — Focal distance from center</span>
+                                    <span><strong>u</strong> — Object boundary distance</span>
+                                    <span><strong>v</strong> — Conjunct real/virtual image plane distance</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="edu-section">
+                            <div class="try-challenge-box">
+                                <h4>Interactive Challenges</h4>
+                                <p>1. <strong>Focal boundary point:</strong> Place the object exactly on the focal point ($u = f$). Watch how the refracted ray lines project parallel into infinity without producing an image.</p>
+                                <p>2. <strong>Magnifying lens setup:</strong> Drag the object closer to the lens than the focal length ($u < f$). Observe how a virtual, magnified, upright image forms behind the object boundary.</p>
+                            </div>
+                        </div>
+                    `;
+                };
+
+                // Dragging object using cursor interactions
+                const getMousePos = (e) => {
+                    const rect = canvas.getBoundingClientRect();
+                    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+                };
+
+                const mousedownHandler = (e) => {
+                    const pos = getMousePos(e);
+                    const midX = canvas.width / (2 * window.devicePixelRatio);
+                    const midY = canvas.height / (2 * window.devicePixelRatio);
+                    
+                    const objX = midX - params.u;
+                    const objY = midY - params.h;
+
+                    if (Math.hypot(pos.x - objX, pos.y - objY) < 15) {
+                        draggingObject = true;
+                    }
+                };
+
+                const mousemoveHandler = (e) => {
+                    if (draggingObject) {
+                        const pos = getMousePos(e);
+                        const midX = canvas.width / (2 * window.devicePixelRatio);
+                        const midY = canvas.height / (2 * window.devicePixelRatio);
+
+                        params.u = Math.max(10, midX - pos.x);
+                        params.h = Math.max(5, midY - pos.y);
+
+                        document.getElementById('slider-u').value = params.u;
+                        document.getElementById('val-u').textContent = params.u.toFixed(0) + ' px';
+                        document.getElementById('slider-h').value = params.h;
+                        document.getElementById('val-h').textContent = params.h.toFixed(0) + ' px';
+                    }
+                };
+
+                const mouseupHandler = () => {
+                    draggingObject = false;
+                };
+
+                canvas.addEventListener('mousedown', mousedownHandler);
+                canvas.addEventListener('mousemove', mousemoveHandler);
+                window.addEventListener('mouseup', mouseupHandler);
+
+                updateControlsPanel();
+                updateEduPanel();
+
+                let animId;
+                const renderLoop = () => {
+                    if (!canvas || !canvas.getContext) return;
+                    const w = canvas.width / window.devicePixelRatio;
+                    const h = canvas.height / window.devicePixelRatio;
+                    ctx.clearRect(0, 0, w, h);
+
+                    const midX = w / 2;
+                    const midY = h / 2;
+
+                    // Compute thin lens equations
+                    let v = 0;
+                    let m = 0;
+                    let realImage = true;
+                    let infImage = false;
+
+                    if (Math.abs(params.u - params.f) < 0.5) {
+                        infImage = true;
+                    } else {
+                        // Classical lens equation
+                        v = (params.u * params.f) / (params.u - params.f);
+                        m = -v / params.u;
+                        realImage = v > 0;
+                    }
+
+                    // Display instrumentation values
+                    if (infImage) {
+                        document.getElementById('tele-v').textContent = "∞ (Infinity)";
+                        document.getElementById('tele-m').textContent = "N/A";
+                        document.getElementById('tele-type').textContent = "Parallel Rays";
+                    } else {
+                        document.getElementById('tele-v').textContent = v.toFixed(1) + ' px';
+                        document.getElementById('tele-m').textContent = m.toFixed(2) + 'x';
+                        document.getElementById('tele-type').textContent = realImage ? "Real & Inverted" : "Virtual & Upright";
+                    }
+
+                    // Draw Horizontal Optical Axis
+                    ctx.strokeStyle = '#20262d';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(0, midY); ctx.lineTo(w, midY);
+                    ctx.stroke();
+
+                    // Draw vertical Lens element symbol
+                    ctx.strokeStyle = 'var(--accent-cyan)';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(midX, midY - 120);
+                    ctx.lineTo(midX, midY + 120);
+                    ctx.stroke();
+
+                    // Draw lens top and bottom arrows
+                    ctx.fillStyle = 'var(--accent-cyan)';
+                    ctx.beginPath();
+                    ctx.moveTo(midX, midY - 125);
+                    ctx.lineTo(midX - 6, midY - 117);
+                    ctx.lineTo(midX + 6, midY - 117);
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.moveTo(midX, midY + 125);
+                    ctx.lineTo(midX - 6, midY + 117);
+                    ctx.lineTo(midX + 6, midY + 117);
+                    ctx.fill();
+
+                    // Draw Focal Points F and F'
+                    ctx.fillStyle = 'var(--accent-cyan)';
+                    ctx.beginPath();
+                    ctx.arc(midX - params.f, midY, 4, 0, Math.PI * 2);
+                    ctx.arc(midX + params.f, midY, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.font = '10px monospace';
+                    ctx.fillText('F', midX - params.f - 4, midY + 15);
+                    ctx.fillText("F'", midX + params.f - 4, midY + 15);
+
+                    // Draw source Object (Green Arrow)
+                    const objX = midX - params.u;
+                    const objY = midY - params.h;
+                    ctx.strokeStyle = 'var(--accent-orange)';
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.moveTo(objX, midY);
+                    ctx.lineTo(objX, objY);
+                    ctx.stroke();
+
+                    // Render Object draggable cap
+                    ctx.fillStyle = 'var(--accent-orange)';
+                    ctx.beginPath();
+                    ctx.moveTo(objX - 6, objY);
+                    ctx.lineTo(objX + 6, objY);
+                    ctx.lineTo(objX, objY - 8);
+                    ctx.fill();
+
+                    // Render principal geometric light rays if image is not infinitely parallel
+                    if (!infImage) {
+                        const imgX = midX + v;
+                        const imgY = midY + (params.h * m);
+
+                        // Ray 1: Parallel to Optical Axis, then refracted through F'
+                        ctx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
+                        ctx.lineWidth = 1.5;
+                        ctx.beginPath();
+                        ctx.moveTo(objX, objY);
+                        ctx.lineTo(midX, objY);
+                        ctx.lineTo(imgX, imgY);
+                        ctx.stroke();
+
+                        // Ray 2: Passing straight through the center of the lens
+                        ctx.beginPath();
+                        ctx.moveTo(objX, objY);
+                        ctx.lineTo(midX, midY);
+                        ctx.lineTo(imgX, imgY);
+                        ctx.stroke();
+
+                        // Ray 3: Through focus point then parallel to axis
+                        ctx.beginPath();
+                        ctx.moveTo(objX, objY);
+                        ctx.lineTo(midX, midY - (imgY - midY) / m);
+                        ctx.lineTo(midX, imgY);
+                        ctx.lineTo(imgX, imgY);
+                        ctx.stroke();
+
+                        // Draw resulting Projected Image (Violet arrow)
+                        ctx.strokeStyle = 'var(--accent-violet)';
+                        ctx.lineWidth = 4;
+                        ctx.beginPath();
+                        ctx.moveTo(imgX, midY);
+                        ctx.lineTo(imgX, imgY);
+                        ctx.stroke();
+
+                        ctx.fillStyle = 'var(--accent-violet)';
+                        ctx.beginPath();
+                        ctx.arc(imgX, imgY, 4, 0, Math.PI * 2);
+                        ctx.fill();
+                    } else {
+                        // Drawing infinite Parallel Rays
+                        ctx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
+                        ctx.lineWidth = 1.5;
+                        // Parallel Ray 1
+                        ctx.beginPath();
+                        ctx.moveTo(objX, objY);
+                        ctx.lineTo(midX, objY);
+                        ctx.lineTo(midX + 300, objY + (300 * params.h) / params.f);
+                        ctx.stroke();
+
+                        // Straight Central Ray 2
+                        ctx.beginPath();
+                        ctx.moveTo(objX, objY);
+                        ctx.lineTo(midX, midY);
+                        ctx.lineTo(midX + 300, midY + (300 * params.h) / params.u);
+                        ctx.stroke();
+                    }
+
+                    animId = requestAnimationFrame(renderLoop);
+                };
+
+                renderLoop();
+
+                this.destroy = () => {
+                    cancelAnimationFrame(animId);
+                    window.removeEventListener('resize', resize);
+                    canvas.removeEventListener('mousedown', mousedownHandler);
+                    canvas.removeEventListener('mousemove', mousemoveHandler);
+                    window.removeEventListener('mouseup', mouseupHandler);
+                };
+            }
+        };
+        Registry.register(ConvexLens);
+
+        /* =========================================================
+           EXPERIMENT 05: WAVE INTERFERENCE
+           ========================================================= */
+        const WaveInterference = {
+            metadata: {
+                id: "wave-interference",
+                title: "Wave Field Superposition Map",
+                category: "Waves",
+                subcategory: "Wave Interference",
+                description: "Visualize classical coherent wave oscillations radiating from two discrete coherent sources.",
+                difficulty: "Intermediate",
+                tags: ["waves", "interference", "constructive", "coherence"]
+            },
+
+            html() {
+                return `
+                    <canvas class="simulation-canvas" id="canvas-waves"></canvas>
+                `;
+            },
+
+            init(container) {
+                const canvas = document.getElementById('canvas-waves');
+                const ctx = canvas.getContext('2d');
+
+                const resize = () => {
+                    const rect = canvas.parentNode.getBoundingClientRect();
+                    canvas.width = rect.width * window.devicePixelRatio;
+                    canvas.height = rect.height * window.devicePixelRatio;
+                    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                };
+                window.addEventListener('resize', resize);
+                resize();
+
+                const params = {
+                    amplitude: 20,
+                    wavelength: 35,
+                    freq: 3.0,
+                    sep: 100, // Distance separation between sources
+                };
+
+                let t = 0;
+
+                const updateControlsPanel = () => {
+                    const controls = document.getElementById('sim-controls-sidebar');
+                    controls.innerHTML = `
+                        <div class="sidebar-panel">
+                            <h3 class="sidebar-panel-title">Wave Parameters</h3>
+                            
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Oscillation Wavelength</span>
+                                    <span class="control-value" id="val-wave-len">${params.wavelength} px</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-wave-len" min="15" max="80" step="2" value="${params.wavelength}">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Source Frequency</span>
+                                    <span class="control-value" id="val-wave-freq">${params.freq.toFixed(1)} Hz</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-wave-freq" min="1.0" max="6.0" step="0.2" value="${params.freq}">
+                            </div>
+
+                            <div class="control-group">
+                                <div class="control-label-wrapper">
+                                    <span class="control-label">Source Separation (d)</span>
+                                    <span class="control-value" id="val-wave-sep">${params.sep} px</span>
+                                </div>
+                                <input type="range" class="sim-slider" id="slider-wave-sep" min="40" max="180" step="5" value="${params.sep}">
+                            </div>
+                        </div>
+
+                        <div class="sidebar-panel">
+                            <h3 class="sidebar-panel-title">System Status</h3>
+                            <div class="instrumentation-list">
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Wave Velocity (v)</span>
+                                    <span class="instrument-value" id="tele-v-wave">---</span>
+                                </div>
+                                <div class="instrumentation-item">
+                                    <span class="instrument-label">Interference Coherence</span>
+                                    <span class="instrument-value" style="color: var(--accent-orange)">Phase-locked</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    document.getElementById('slider-wave-len').addEventListener('input', (e) => {
+                        params.wavelength = parseFloat(e.target.value);
+                        document.getElementById('val-wave-len').textContent = params.wavelength + ' px';
+                    });
+                    document.getElementById('slider-wave-freq').addEventListener('input', (e) => {
+                        params.freq = parseFloat(e.target.value);
+                        document.getElementById('val-wave-freq').textContent = params.freq.toFixed(1) + ' Hz';
+                    });
+                    document.getElementById('slider-wave-sep').addEventListener('input', (e) => {
+                        params.sep = parseFloat(e.target.value);
+                        document.getElementById('val-wave-sep').textContent = params.sep + ' px';
+                    });
+                };
+
+                const updateEduPanel = () => {
+                    const edu = document.getElementById('sim-edu-content');
+                    edu.innerHTML = `
+                        <div class="edu-section">
+                            <h3>Superposition Principle</h3>
+                            <p>Interference maps the absolute algebraic spatial summation of individual wave peaks and troughs at every intersecting point of propagation coordinate space:</p>
+                            
+                            <div class="equation-card">
+                                <div class="equation-raw">z(x, y, t) = A_1 \\cos(k r_1 - \\omega t) + A_2 \\cos(k r_2 - \\omega t)</div>
+                                <div class="equation-variables">
+                                    <span><strong>r_1, r_2</strong> — Coordinate distance pathways to sources</span>
+                                    <span><strong>k</strong> — Wave number (2&pi; / &lambda;)</span>
+                                    <span><strong>&omega;</strong> — Angular wave frequency (2&pi;f)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="edu-section">
+                            <div class="try-challenge-box">
+                                <h4>Interactive Challenges</h4>
+                                <p>1. <strong>Observe Fringes:</strong> Identify distinct dark structural vector paths emanating outwards. These are regions of <strong>destructive interference</strong>, where peaks directly counter and cancel out troughs.</p>
+                                <p>2. <strong>Frequency density:</strong> Increase the source frequency parameter to its maximum limit. Observe how the destructive interference nodes compress closely together.</p>
+                            </div>
+                        </div>
+                    `;
+                };
+
+                updateControlsPanel();
+                updateEduPanel();
+
+                let animId;
+                const renderLoop = () => {
+                    if (!canvas || !canvas.getContext) return;
+                    const w = canvas.width / window.devicePixelRatio;
+                    const h = canvas.height / window.devicePixelRatio;
+                    
+                    t += 0.08 * params.freq;
+
+                    // Telemetry
+                    const velocity = params.wavelength * params.freq;
+                    document.getElementById('tele-v-wave').textContent = velocity.toFixed(1) + ' px/s';
+
+                    // Draw background simulation
+                    ctx.fillStyle = '#07090c';
+                    ctx.fillRect(0, 0, w, h);
+
+                    const s1 = { x: w / 2, y: h / 2 - params.sep / 2 };
+                    const s2 = { x: w / 2, y: h / 2 + params.sep / 2 };
+
+                    const k = (2 * Math.PI) / params.wavelength;
+
+                    // Low-resolution structural pixel wave field renderer for high canvas rendering performance
+                    const res = 6; 
+                    for (let x = 0; x < w; x += res) {
+                        for (let y = 0; y < h; y += res) {
+                            const d1 = Math.hypot(x - s1.x, y - s1.y);
+                            const d2 = Math.hypot(x - s2.x, y - s2.y);
+
+                            const z1 = Math.sin(k * d1 - t);
+                            const z2 = Math.sin(k * d2 - t);
+
+                            const combined = (z1 + z2) / 2.0;
+
+                            // Scale into custom technical green/blue/black color scheme based on displacement value
+                            let color;
+                            if (combined > 0) {
+                                const r = Math.floor(combined * 120);
+                                const g = Math.floor(combined * 240);
+                                color = `rgb(${r}, ${g}, 255)`;
+                            } else {
+                                const b = Math.floor(Math.abs(combined) * 160);
+                                color = `rgb(0, 0, ${b})`;
+                            }
+
+                            ctx.fillStyle = color;
+                            ctx.fillRect(x, y, res, res);
+                        }
+                    }
+
+                    // Render source circles
+                    ctx.fillStyle = 'var(--accent-cyan)';
+                    ctx.beginPath();
+                    ctx.arc(s1.x, s1.y, 6, 0, Math.PI * 2);
+                    ctx.arc(s2.x, s2.y, 6, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    animId = requestAnimationFrame(renderLoop);
+                };
+
+                renderLoop();
+
+                this.destroy = () => {
+                    cancelAnimationFrame(animId);
+                    window.removeEventListener('resize', resize);
+                };
+            }
+        };
+        Registry.register(WaveInterference);
+
+        // Run application on initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            App.init();
+        });
+    </script>
+</body>
+</html>
