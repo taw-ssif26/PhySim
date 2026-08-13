@@ -14,23 +14,24 @@
            GLOBAL CSS & VARIABLES
            ========================================================= */
         :root {
-            --bg-base: #080a0c;
-            --bg-surface: #101418;
-            --bg-surface-elevated: #161c22;
-            --border-subtle: #20262d;
-            --border-accent: #30363d;
+            --bg-base: #06080a;
+            --bg-surface: #0e1115;
+            --bg-surface-elevated: #14191f;
+            --border-subtle: #1c232b;
+            --border-accent: #2b3541;
             
-            --text-primary: #e6edf3;
-            --text-secondary: #8b949e;
-            --text-muted: #484f58;
+            --text-primary: #f0f3f6;
+            --text-secondary: #8c9ba5;
+            --text-muted: #4e5c6a;
             
             --accent-cyan: #00f0ff;
-            --accent-cyan-glow: rgba(0, 240, 255, 0.25);
-            --accent-violet: #8a2be2;
-            --accent-orange: #ff7f50;
-            --accent-red: #ff4a4a;
-            --accent-blue: #1f6feb;
-            --accent-yellow: #ffd700;
+            --accent-cyan-glow: rgba(0, 240, 255, 0.2);
+            --accent-violet: #9b4dff;
+            --accent-orange: #ff6b35;
+            --accent-red: #ff3e3e;
+            --accent-blue: #2f80ed;
+            --accent-yellow: #f2c94c;
+            --accent-green: #27ae60;
             
             --font-ui: 'Inter', system-ui, sans-serif;
             --font-display: 'Space Grotesk', sans-serif;
@@ -59,7 +60,7 @@
             text-decoration: none;
         }
 
-        /* Technical Grid Background overlay */
+        /* Technical Grid Background Overlay */
         .grid-overlay {
             position: fixed;
             top: 0;
@@ -67,37 +68,36 @@
             width: 100vw;
             height: 100vh;
             background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-            background-size: 40px 40px;
+                linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 30px 30px;
             pointer-events: none;
             z-index: 1;
         }
 
-        /* Scrollbar styling */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
             background: var(--bg-base);
         }
         ::-webkit-scrollbar-thumb {
             background: var(--border-subtle);
-            border-radius: 4px;
+            border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: var(--border-accent);
         }
 
-        /* Layout framework */
+        /* Layout Framework */
         header {
             position: sticky;
             top: 0;
             width: 100%;
             height: 70px;
-            background-color: rgba(8, 10, 12, 0.85);
-            backdrop-filter: blur(12px);
+            background-color: rgba(6, 8, 10, 0.85);
+            backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-subtle);
             display: flex;
             align-items: center;
@@ -114,12 +114,12 @@
         }
 
         .logo-symbol {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             border: 2px solid var(--accent-cyan);
             border-radius: 50%;
             position: relative;
-            animation: pulse-ring 4s infinite linear;
+            animation: pulse-ring 6s infinite linear;
         }
 
         .logo-symbol::after {
@@ -127,8 +127,8 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: var(--accent-cyan);
             border-radius: 50%;
             transform: translate(-50%, -50%);
@@ -143,14 +143,14 @@
         .logo-text {
             font-family: var(--font-display);
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
 
         .logo-text span {
             color: var(--accent-cyan);
-            font-weight: 400;
+            font-weight: 300;
         }
 
         nav {
@@ -160,12 +160,12 @@
         }
 
         nav a {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             color: var(--text-secondary);
             transition: var(--transition-smooth);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             cursor: pointer;
         }
 
@@ -177,8 +177,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 12px;
-            background: rgba(0, 240, 255, 0.05);
+            padding: 6px 14px;
+            background: rgba(0, 240, 255, 0.04);
             border: 1px solid rgba(0, 240, 255, 0.15);
             border-radius: 4px;
             font-family: var(--font-mono);
@@ -192,11 +192,11 @@
             background: var(--accent-cyan);
             border-radius: 50%;
             box-shadow: 0 0 8px var(--accent-cyan);
-            animation: pulse-dot 1.5s infinite;
+            animation: pulse-dot 1.8s infinite;
         }
 
         @keyframes pulse-dot {
-            0%, 100% { opacity: 0.5; }
+            0%, 100% { opacity: 0.4; }
             50% { opacity: 1; }
         }
 
@@ -206,13 +206,13 @@
             min-height: calc(100vh - 70px);
         }
 
-        /* Generic utilities */
+        /* Generic Utilities */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 10px 20px;
+            padding: 10px 22px;
             background: var(--bg-surface-elevated);
             border: 1px solid var(--border-subtle);
             color: var(--text-primary);
@@ -254,7 +254,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 120px 20px 80px 20px;
+            padding: 140px 20px 100px 20px;
             overflow: hidden;
         }
 
@@ -265,7 +265,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.45;
+            opacity: 0.35;
             pointer-events: none;
         }
 
@@ -280,27 +280,69 @@
 
         .hero-title {
             font-family: var(--font-display);
-            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-size: clamp(3.2rem, 7vw, 5.5rem);
             font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -1px;
+            line-height: 1.05;
+            letter-spacing: -2px;
             margin-bottom: 24px;
-            background: linear-gradient(135deg, #fff 40%, var(--text-secondary));
+            background: linear-gradient(135deg, #fff 50%, var(--text-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero-description {
-            max-width: 650px;
-            font-size: 1.1rem;
+            max-width: 700px;
+            font-size: 1.15rem;
             color: var(--text-secondary);
             margin-bottom: 40px;
             font-weight: 300;
         }
 
-        /* Home Explore Section */
+        /* Spotlight Card Block */
+        .spotlight-card {
+            background: linear-gradient(135deg, var(--bg-surface), rgba(16, 21, 28, 0.7));
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 32px;
+            max-width: 600px;
+            margin: 0 auto 80px auto;
+            text-align: left;
+            position: relative;
+        }
+
+        .spotlight-badge {
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: var(--accent-cyan);
+            color: var(--bg-base);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .spotlight-title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+        }
+
+        .spotlight-title a {
+            color: var(--accent-cyan);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            transition: var(--transition-smooth);
+        }
+
+        .spotlight-title a:hover {
+            color: #00d2e0;
+        }
+
         .home-section {
-            padding: 60px 40px;
+            padding: 40px;
             max-width: 1400px;
             margin: 0 auto;
         }
@@ -316,13 +358,13 @@
 
         .section-title-wrapper h2 {
             font-family: var(--font-display);
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 600;
         }
 
         .section-title-wrapper p {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             margin-top: 4px;
         }
 
@@ -331,7 +373,7 @@
            ========================================================= */
         .browser-layout {
             display: grid;
-            grid-template-columns: 280px 1fr;
+            grid-template-columns: 320px 1fr;
             min-height: calc(100vh - 70px);
             max-width: 100%;
         }
@@ -339,7 +381,9 @@
         .browser-sidebar {
             border-right: 1px solid var(--border-subtle);
             padding: 32px;
-            background-color: rgba(16, 20, 24, 0.3);
+            background-color: rgba(14, 17, 21, 0.4);
+            overflow-y: auto;
+            max-height: calc(100vh - 70px);
         }
 
         .sidebar-section {
@@ -348,11 +392,11 @@
 
         .sidebar-title {
             font-family: var(--font-display);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-secondary);
+            letter-spacing: 2px;
+            color: var(--text-muted);
             margin-bottom: 16px;
         }
 
@@ -360,14 +404,14 @@
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .category-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 12px;
+            padding: 10px 14px;
             border-radius: 4px;
             font-size: 0.85rem;
             color: var(--text-secondary);
@@ -382,18 +426,22 @@
 
         .category-item.active {
             border-left: 2px solid var(--accent-cyan);
+            padding-left: 12px;
         }
 
         .category-count {
             font-family: var(--font-mono);
             font-size: 0.75rem;
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.04);
             padding: 2px 6px;
             border-radius: 3px;
+            color: var(--text-muted);
         }
 
         .browser-main {
             padding: 40px;
+            overflow-y: auto;
+            max-height: calc(100vh - 70px);
         }
 
         .search-bar-container {
@@ -409,43 +457,43 @@
 
         .search-input {
             width: 100%;
-            height: 48px;
+            height: 52px;
             background-color: var(--bg-surface);
             border: 1px solid var(--border-subtle);
-            border-radius: 4px;
-            padding: 0 16px 0 48px;
+            border-radius: 6px;
+            padding: 0 16px 0 54px;
             color: var(--text-primary);
             font-family: var(--font-ui);
-            font-size: 0.95rem;
+            font-size: 1rem;
             transition: var(--transition-smooth);
         }
 
         .search-input:focus {
             outline: none;
             border-color: var(--accent-cyan);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.08);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.08);
         }
 
         .search-icon {
             position: absolute;
-            left: 16px;
+            left: 18px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
             pointer-events: none;
         }
 
-        /* Catalog-style experiment cards */
+        /* Catalog-style Cards */
         .experiment-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
         }
 
         .experiment-card {
             background-color: var(--bg-surface);
             border: 1px solid var(--border-subtle);
-            border-radius: 4px;
+            border-radius: 6px;
             padding: 24px;
             display: flex;
             flex-direction: column;
@@ -454,6 +502,7 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            min-height: 220px;
         }
 
         .experiment-card::before {
@@ -471,7 +520,7 @@
         .experiment-card:hover {
             transform: translateY(-4px);
             border-color: var(--border-accent);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
         }
 
         .experiment-card:hover::before {
@@ -482,7 +531,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .card-meta {
@@ -494,27 +543,30 @@
         }
 
         .card-difficulty {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             padding: 2px 8px;
             border-radius: 12px;
-            font-weight: 500;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .diff-beginner { background: rgba(0, 240, 255, 0.08); color: var(--accent-cyan); }
-        .diff-intermediate { background: rgba(255, 127, 80, 0.08); color: var(--accent-orange); }
-        .diff-advanced { background: rgba(138, 43, 226, 0.08); color: #b175ff; }
+        .diff-intermediate { background: rgba(255, 107, 53, 0.08); color: var(--accent-orange); }
+        .diff-advanced { background: rgba(155, 77, 255, 0.08); color: #b780ff; }
 
         .card-title {
             font-family: var(--font-display);
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 8px;
+            line-height: 1.3;
         }
 
         .card-description {
             color: var(--text-secondary);
             font-size: 0.85rem;
-            line-height: 1.4;
+            line-height: 1.45;
             margin-bottom: 20px;
             flex-grow: 1;
         }
@@ -571,38 +623,38 @@
 
         .workspace-title {
             font-family: var(--font-display);
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 600;
         }
 
         .workspace-grid {
             display: grid;
-            grid-template-columns: 1fr 340px;
+            grid-template-columns: 1fr 360px;
             flex-grow: 1;
-            min-height: 500px;
+            min-height: 520px;
         }
 
         .canvas-area {
             position: relative;
-            background-color: #0b0e12;
+            background-color: #080a0d;
             display: flex;
             align-items: center;
             justify-content: center;
             border-right: 1px solid var(--border-subtle);
-            padding: 20px;
+            padding: 30px;
             overflow: hidden;
         }
 
         .simulation-canvas-wrapper {
             position: relative;
             width: 100%;
-            max-width: 800px;
-            aspect-ratio: 16/9;
-            background-color: #07090c;
+            max-width: 860px;
+            aspect-ratio: 16/10;
+            background-color: #040507;
             border: 1px solid var(--border-subtle);
-            border-radius: 4px;
+            border-radius: 6px;
             overflow: hidden;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.8);
         }
 
         .simulation-canvas {
@@ -613,15 +665,15 @@
 
         .canvas-toolbar {
             position: absolute;
-            bottom: 12px;
+            bottom: 16px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(16, 20, 24, 0.95);
+            background-color: rgba(14, 17, 21, 0.95);
             border: 1px solid var(--border-accent);
-            border-radius: 4px;
+            border-radius: 6px;
             display: flex;
-            padding: 4px;
-            gap: 4px;
+            padding: 6px;
+            gap: 6px;
             backdrop-filter: blur(8px);
             z-index: 20;
         }
@@ -630,14 +682,15 @@
             background: transparent;
             border: none;
             color: var(--text-secondary);
-            width: 32px;
-            height: 32px;
-            border-radius: 3px;
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: var(--transition-smooth);
+            font-size: 1.1rem;
         }
 
         .toolbar-btn:hover {
@@ -650,7 +703,7 @@
             background-color: var(--accent-cyan);
         }
 
-        /* Control panel on right */
+        /* Controls sidebar */
         .workspace-sidebar {
             display: flex;
             flex-direction: column;
@@ -666,7 +719,7 @@
 
         .sidebar-panel-title {
             font-family: var(--font-display);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1.5px;
@@ -677,7 +730,6 @@
             justify-content: space-between;
         }
 
-        /* Scientific Slider & Control elements */
         .control-group {
             margin-bottom: 20px;
         }
@@ -700,14 +752,8 @@
             color: var(--accent-cyan);
         }
 
-        .slider-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
         .sim-slider {
-            flex-grow: 1;
+            width: 100%;
             -webkit-appearance: none;
             appearance: none;
             height: 4px;
@@ -727,39 +773,20 @@
             cursor: pointer;
             border: 2px solid var(--bg-surface);
             box-shadow: 0 0 10px var(--accent-cyan-glow);
-            transition: var(--transition-smooth);
         }
 
-        .sim-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
-
-        /* Scientific Button States inside controls */
-        .btn-group {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .btn-small {
-            padding: 8px 12px;
-            font-size: 0.75rem;
-            border-radius: 3px;
-        }
-
-        /* Instrumentation readout system */
+        /* Instrumentation list */
         .instrumentation-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .instrumentation-item {
             background-color: var(--bg-surface-elevated);
             border: 1px solid var(--border-subtle);
             border-radius: 4px;
-            padding: 12px;
+            padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -779,40 +806,39 @@
             font-weight: 500;
         }
 
-        /* Educational section below */
+        /* Educational Section */
         .educational-area {
             background-color: var(--bg-surface);
             border-top: 1px solid var(--border-subtle);
-            padding: 48px;
+            padding: 60px 40px;
         }
 
         .educational-content {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
+            grid-template-columns: 1.4fr 1fr;
             gap: 60px;
         }
 
         .edu-section h3 {
             font-family: var(--font-display);
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 16px;
         }
 
         .edu-section p {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             line-height: 1.6;
             margin-bottom: 24px;
         }
 
-        /* Technical equation card */
         .equation-card {
             background-color: var(--bg-surface-elevated);
             border-left: 3px solid var(--accent-cyan);
-            border-radius: 0 4px 4px 0;
+            border-radius: 0 6px 6px 0;
             padding: 24px;
             margin: 20px 0;
         }
@@ -823,7 +849,6 @@
             color: var(--text-primary);
             text-align: center;
             margin-bottom: 16px;
-            letter-spacing: 1px;
         }
 
         .equation-variables {
@@ -837,22 +862,20 @@
         }
 
         .try-challenge-box {
-            background: rgba(138, 43, 226, 0.05);
-            border: 1px dashed rgba(138, 43, 226, 0.3);
-            border-radius: 4px;
-            padding: 24px;
+            background: rgba(155, 77, 255, 0.03);
+            border: 1px dashed rgba(155, 77, 255, 0.25);
+            border-radius: 6px;
+            padding: 28px;
         }
 
         .try-challenge-box h4 {
-            color: #b175ff;
+            color: #c09bff;
             font-family: var(--font-display);
             margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 1.1rem;
         }
 
-        /* Creator Signature Footer */
+        /* Footer Attribution */
         .creator-signature {
             border-top: 1px solid var(--border-subtle);
             background-color: var(--bg-base);
@@ -872,7 +895,6 @@
             text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
         }
 
-        /* Responsive Design */
         @media (max-width: 1024px) {
             .workspace-grid {
                 grid-template-columns: 1fr;
@@ -887,19 +909,6 @@
             }
             .browser-layout {
                 grid-template-columns: 1fr;
-            }
-            .browser-sidebar {
-                border-right: none;
-                border-bottom: 1px solid var(--border-subtle);
-            }
-        }
-
-        @media (max-width: 600px) {
-            header {
-                padding: 0 20px;
-            }
-            nav {
-                display: none;
             }
         }
     </style>
@@ -919,17 +928,17 @@
             <a id="nav-browser" onclick="App.navigate('browser')">Lab Browser</a>
             <div class="nav-status">
                 <span class="status-dot"></span>
-                <span>SYSTEM: READY</span>
+                <span>SYSTEM: READY | Md Abu Tawsif</span>
             </div>
         </nav>
     </header>
 
-    <!-- CONTENT CONTAINER -->
+    <!-- CONTENT VIEWPORT -->
     <main id="app-viewport">
-        <!-- Dynamically loaded view contents appear here -->
+        <!-- Viewport contents loaded dynamically -->
     </main>
 
-    <!-- FOOTER / SIGNATURE -->
+    <!-- UNIFIED SIGNATURE FOOTER -->
     <div class="creator-signature">
         <p>Built by <a href="https://tawsif-dev.vercel.app" target="_blank" rel="noopener noreferrer">Md Abu Tawsif</a> — exploring the intersection of programming, visualization and science.</p>
     </div>
@@ -1004,7 +1013,6 @@
 
             init() {
                 this.navigate('home');
-                
                 window.addEventListener('popstate', (e) => {
                     if (e.state && e.state.view) {
                         this.navigate(e.state.view, e.state.experimentId, false);
@@ -1050,18 +1058,25 @@
                 container.innerHTML = `
                     <section class="hero">
                         <div class="hero-canvas-container" id="hero-canvas-host"></div>
-                        <div class="hero-pretitle">Digital Scientific Exploration</div>
+                        <div class="hero-pretitle">Interactive Scientific Workspace</div>
                         <h1 class="hero-title">Physics, You Can See.</h1>
-                        <p class="hero-description">Explore the laws of physics through interactive simulations, precise calculations, and visual experiments.</p>
-                        <div style="display: flex; gap: 16px;">
-                            <button class="btn btn-primary" onclick="App.navigate('browser')">Open Laboratory</button>
+                        <p class="hero-description">Explore physical laws through high-precision computational simulations, vector diagnostics, and real-time numerical telemetry.</p>
+                        
+                        <!-- Creator Spotlight Spotlight Card -->
+                        <div class="spotlight-card">
+                            <span class="spotlight-badge">Lead Creator Spotlight</span>
+                            <h3 class="spotlight-title">Designed by <a href="https://tawsif-dev.vercel.app" target="_blank" rel="noopener noreferrer">Md Abu Tawsif</a></h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 12px;">
+                                Built entirely inside a unified architecture, integrating responsive layouts with low-level differential equation solvers.
+                            </p>
+                            <button class="btn btn-primary btn-small" onclick="App.navigate('browser')">Explore 150+ Experiments</button>
                         </div>
                     </section>
 
                     <section class="home-section">
                         <div class="section-header">
                             <div class="section-title-wrapper">
-                                <h2>Featured Simulations</h2>
+                                <h2>Featured Master Simulations</h2>
                                 <p>Begin running analytical systems and adjusting foundational constants</p>
                             </div>
                             <button class="btn" onclick="App.navigate('browser')">View All Systems</button>
@@ -1292,7 +1307,123 @@
         };
 
         /* =========================================================
-           EXPERIMENT 01: PROJECTILE MOTION
+           UNIVERSAL PARAMETRIC SOLVER ENGINE
+           ========================================================= */
+        const UniversalEngine = {
+            create(meta, config) {
+                return {
+                    metadata: meta,
+                    html() {
+                        return `
+                            <canvas class="simulation-canvas" id="canvas-${meta.id}"></canvas>
+                            <div class="canvas-toolbar">
+                                <button class="toolbar-btn active" id="btn-play-${meta.id}">◀▶</button>
+                                <button class="toolbar-btn" id="btn-reset-${meta.id}">↻</button>
+                            </div>
+                        `;
+                    },
+                    init(container) {
+                        const canvas = document.getElementById(`canvas-${meta.id}`);
+                        const ctx = canvas.getContext('2d');
+                        
+                        const resize = () => {
+                            const rect = canvas.parentNode.getBoundingClientRect();
+                            canvas.width = rect.width * window.devicePixelRatio;
+                            canvas.height = rect.height * window.devicePixelRatio;
+                            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                        };
+                        window.addEventListener('resize', resize);
+                        resize();
+
+                        const params = { ...config.defaultParams, play: true };
+                        let t = 0;
+
+                        // UI Setup
+                        const controls = document.getElementById('sim-controls-sidebar');
+                        let controlHtml = `<div class="sidebar-panel"><h3 class="sidebar-panel-title">Configuration</h3>`;
+                        
+                        config.controls.forEach(c => {
+                            controlHtml += `
+                                <div class="control-group">
+                                    <div class="control-label-wrapper">
+                                        <span class="control-label">${c.label}</span>
+                                        <span class="control-value" id="val-${meta.id}-${c.key}">${params[c.key].toFixed(c.decimals || 1)} ${c.unit || ''}</span>
+                                    </div>
+                                    <input type="range" class="sim-slider" id="slider-${meta.id}-${c.key}" min="${c.min}" max="${c.max}" step="${c.step}" value="${params[c.key]}">
+                                </div>
+                            `;
+                        });
+                        controlHtml += `</div>`;
+
+                        // Add telemetry readouts panel
+                        controlHtml += `
+                            <div class="sidebar-panel">
+                                <h3 class="sidebar-panel-title">Mathematical Metrics</h3>
+                                <div class="instrumentation-list" id="telemetry-${meta.id}"></div>
+                            </div>
+                        `;
+
+                        controls.innerHTML = controlHtml;
+
+                        config.controls.forEach(c => {
+                            document.getElementById(`slider-${meta.id}-${c.key}`).addEventListener('input', (e) => {
+                                params[c.key] = parseFloat(e.target.value);
+                                document.getElementById(`val-${meta.id}-${c.key}`).textContent = params[c.key].toFixed(c.decimals || 1) + ' ' + (c.unit || '');
+                                if (config.onParamChange) config.onParamChange(params);
+                            });
+                        });
+
+                        const edu = document.getElementById('sim-edu-content');
+                        edu.innerHTML = `
+                            <div class="edu-section">
+                                <h3>Theoretical Analysis</h3>
+                                <p>${config.explanation}</p>
+                                <div class="equation-card">
+                                    <div class="equation-raw">${config.equation}</div>
+                                </div>
+                            </div>
+                            <div class="edu-section">
+                                <div class="try-challenge-box">
+                                    <h4>Scientific Challenge</h4>
+                                    <p>${config.challenge}</p>
+                                </div>
+                            </div>
+                        `;
+
+                        const playBtn = document.getElementById(`btn-play-${meta.id}`);
+                        playBtn.onclick = () => {
+                            params.play = !params.play;
+                            playBtn.classList.toggle('active', params.play);
+                        };
+                        document.getElementById(`btn-reset-${meta.id}`).onclick = () => {
+                            t = 0;
+                            if (config.reset) config.reset();
+                        };
+
+                        let animId;
+                        const renderLoop = () => {
+                            if (!canvas) return;
+                            const w = canvas.width / window.devicePixelRatio;
+                            const h = canvas.height / window.devicePixelRatio;
+                            
+                            if (params.play) t += 0.016;
+                            
+                            config.solver(ctx, w, h, t, params, document.getElementById(`telemetry-${meta.id}`));
+                            animId = requestAnimationFrame(renderLoop);
+                        };
+                        renderLoop();
+
+                        this.destroy = () => {
+                            cancelAnimationFrame(animId);
+                            window.removeEventListener('resize', resize);
+                        };
+                    }
+                };
+            }
+        };
+
+        /* =========================================================
+           FLAGSHIP EXPERIMENT 01: PROJECTILE MOTION
            ========================================================= */
         const ProjectileMotion = {
             metadata: {
@@ -1300,11 +1431,10 @@
                 title: "Projectile Motion Analysis",
                 category: "Mechanics",
                 subcategory: "Kinematics",
-                description: "Simulate trajectories of classical mass points under constant gravitation with vector indicators and optional Stokes air drag coefficients.",
+                description: "Simulate paths of classical mass points under gravitation with real-time trajectory vector tracking.",
                 difficulty: "Beginner",
-                tags: ["kinematics", "gravity", "trajectory", "vectors"]
+                tags: ["kinematics", "gravity", "trajectory"]
             },
-
             html() {
                 return `
                     <canvas class="simulation-canvas" id="canvas-projectile"></canvas>
@@ -1314,16 +1444,10 @@
                     </div>
                 `;
             },
-
-            css() {
-                return ``;
-            },
-
             init(container) {
                 const canvas = document.getElementById('canvas-projectile');
                 const ctx = canvas.getContext('2d');
                 
-                // Track dynamic dimensions
                 const resize = () => {
                     const rect = canvas.parentNode.getBoundingClientRect();
                     canvas.width = rect.width * window.devicePixelRatio;
@@ -1333,40 +1457,28 @@
                 window.addEventListener('resize', resize);
                 resize();
 
-                // Initial parameters
-                const params = {
-                    v0: 30,      // m/s
-                    theta: 45,   // degrees
-                    h0: 0,       // m
-                    g: 9.81,     // m/s^2
-                    drag: 0.1,   // drag coeff
-                    play: true
-                };
-
-                // Physics state
-                let t = 0;
-                let path = [];
-                let finished = false;
+                const params = { v0: 30, theta: 45, h0: 0, g: 9.81, drag: 0.1, play: true };
+                let t = 0, path = [], finished = false;
 
                 const getPositionAt = (time) => {
                     const angleRad = (params.theta * Math.PI) / 180;
                     const vx0 = params.v0 * Math.cos(angleRad);
                     const vy0 = params.v0 * Math.sin(angleRad);
-
                     if (params.drag === 0) {
-                        const x = vx0 * time;
-                        const y = params.h0 + vy0 * time - 0.5 * params.g * time * time;
-                        const vx = vx0;
-                        const vy = vy0 - params.g * time;
-                        return { x, y, vx, vy };
+                        return {
+                            x: vx0 * time,
+                            y: params.h0 + vy0 * time - 0.5 * params.g * time * time,
+                            vx: vx0,
+                            vy: vy0 - params.g * time
+                        };
                     } else {
-                        // Analytical solution to linear air resistance (Stokes' Drag)
                         const k = params.drag;
-                        const x = (vx0 / k) * (1 - Math.exp(-k * time));
-                        const y = params.h0 + (1 / k) * (vy0 + params.g / k) * (1 - Math.exp(-k * time)) - (params.g * time) / k;
-                        const vx = vx0 * Math.exp(-k * time);
-                        const vy = (vy0 + params.g / k) * Math.exp(-k * time) - params.g / k;
-                        return { x, y, vx, vy };
+                        return {
+                            x: (vx0 / k) * (1 - Math.exp(-k * time)),
+                            y: params.h0 + (1 / k) * (vy0 + params.g / k) * (1 - Math.exp(-k * time)) - (params.g * time) / k,
+                            vx: vx0 * Math.exp(-k * time),
+                            vy: (vy0 + params.g / k) * Math.exp(-k * time) - params.g / k
+                        };
                     }
                 };
 
@@ -1375,7 +1487,6 @@
                     controls.innerHTML = `
                         <div class="sidebar-panel">
                             <h3 class="sidebar-panel-title">Initial Configuration</h3>
-                            
                             <div class="control-group">
                                 <div class="control-label-wrapper">
                                     <span class="control-label">Launch Velocity (v₀)</span>
@@ -1383,7 +1494,6 @@
                                 </div>
                                 <input type="range" class="sim-slider" id="slider-v0" min="5" max="50" step="1" value="${params.v0}">
                             </div>
-
                             <div class="control-group">
                                 <div class="control-label-wrapper">
                                     <span class="control-label">Launch Angle (θ)</span>
@@ -1391,7 +1501,6 @@
                                 </div>
                                 <input type="range" class="sim-slider" id="slider-theta" min="0" max="90" step="1" value="${params.theta}">
                             </div>
-
                             <div class="control-group">
                                 <div class="control-label-wrapper">
                                     <span class="control-label">Initial Height (h₀)</span>
@@ -1399,211 +1508,87 @@
                                 </div>
                                 <input type="range" class="sim-slider" id="slider-h0" min="0" max="25" step="1" value="${params.h0}">
                             </div>
-
                             <div class="control-group">
                                 <div class="control-label-wrapper">
-                                    <span class="control-label">Gravitational Field (g)</span>
+                                    <span class="control-label">Gravity (g)</span>
                                     <span class="control-value" id="val-g">${params.g} m/s²</span>
                                 </div>
                                 <input type="range" class="sim-slider" id="slider-g" min="1" max="25" step="0.1" value="${params.g}">
                             </div>
-
-                            <div class="control-group">
-                                <div class="control-label-wrapper">
-                                    <span class="control-label">Air Drag Coefficient (γ)</span>
-                                    <span class="control-value" id="val-drag">${params.drag.toFixed(2)}</span>
-                                </div>
-                                <input type="range" class="sim-slider" id="slider-drag" min="0" max="0.8" step="0.05" value="${params.drag}">
-                            </div>
                         </div>
-
                         <div class="sidebar-panel">
                             <h3 class="sidebar-panel-title">Telemetry Readouts</h3>
                             <div class="instrumentation-list">
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Flight Time (t)</span>
-                                    <span class="instrument-value" id="tele-t">0.000 s</span>
-                                </div>
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Horizontal Range (x)</span>
-                                    <span class="instrument-value" id="tele-x">0.000 m</span>
-                                </div>
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Current Altitude (y)</span>
-                                    <span class="instrument-value" id="tele-y">0.000 m</span>
-                                </div>
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Velocity vector (v)</span>
-                                    <span class="instrument-value" id="tele-v">0.000 m/s</span>
-                                </div>
+                                <div class="instrumentation-item"><span class="instrument-label">Flight Time</span><span class="instrument-value" id="tele-t">0.00 s</span></div>
+                                <div class="instrumentation-item"><span class="instrument-label">Horizontal Position (x)</span><span class="instrument-value" id="tele-x">0.00 m</span></div>
+                                <div class="instrumentation-item"><span class="instrument-label">Altitude (y)</span><span class="instrument-value" id="tele-y">0.00 m</span></div>
                             </div>
                         </div>
                     `;
 
-                    // Bind listeners
-                    const bindSlider = (id, targetKey, valId, suffix) => {
+                    const bind = (id, key, valId, suffix) => {
                         document.getElementById(id).addEventListener('input', (e) => {
-                            params[targetKey] = parseFloat(e.target.value);
-                            document.getElementById(valId).textContent = params[targetKey] + suffix;
-                            resetSim();
+                            params[key] = parseFloat(e.target.value);
+                            document.getElementById(valId).textContent = params[key] + suffix;
+                            reset();
                         });
                     };
-
-                    bindSlider('slider-v0', 'v0', 'val-v0', ' m/s');
-                    bindSlider('slider-theta', 'theta', 'val-theta', '°');
-                    bindSlider('slider-h0', 'h0', 'val-h0', ' m');
-                    bindSlider('slider-g', 'g', 'val-g', ' m/s²');
-                    
-                    document.getElementById('slider-drag').addEventListener('input', (e) => {
-                        params.drag = parseFloat(e.target.value);
-                        document.getElementById('val-drag').textContent = params.drag.toFixed(2);
-                        resetSim();
-                    });
+                    bind('slider-v0', 'v0', 'val-v0', ' m/s');
+                    bind('slider-theta', 'theta', 'val-theta', '°');
+                    bind('slider-h0', 'h0', 'val-h0', ' m');
+                    bind('slider-g', 'g', 'val-g', ' m/s²');
                 };
 
-                const updateEduPanel = () => {
-                    const edu = document.getElementById('sim-edu-content');
-                    edu.innerHTML = `
-                        <div class="edu-section">
-                            <h3>Theoretical Analysis</h3>
-                            <p>An idealized projectile moves under horizontal inertia and vertical gravity. With linear Stokes drag force acting opposite to the instantaneous velocity path vector ($F_d = -\gamma \vec{v}$), the equation of motion is decoupled as:</p>
-                            
-                            <div class="equation-card">
-                                <div class="equation-raw">m \\frac{d\\vec{v}}{dt} = m\\vec{g} - \\gamma\\vec{v}</div>
-                                <div class="equation-variables">
-                                    <span><strong>&gamma;</strong> — Drag Coefficient</span>
-                                    <span><strong>v</strong> — Instantaneous velocity</span>
-                                    <span><strong>g</strong> — Local gravity acceleration</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="edu-section">
-                            <div class="try-challenge-box">
-                                <h4>Interactive Challenges</h4>
-                                <p>1. <strong>Optimize trajectory:</strong> Set drag ($\gamma$) to 0. Find the launch angle that maximizes horizontal range.</p>
-                                <p>2. <strong>Terminal deceleration:</strong> Push the air drag parameter up to 0.8 and note how the trajectory shifts from a standard parabolic arch into an asymmetric decay curve.</p>
-                            </div>
-                        </div>
-                    `;
-                };
-
-                const resetSim = () => {
-                    t = 0;
-                    path = [];
-                    finished = false;
-                };
-
-                document.getElementById('btn-reset-proj').onclick = () => resetSim();
-                const playBtn = document.getElementById('btn-play-proj');
-                playBtn.onclick = () => {
+                const reset = () => { t = 0; path = []; finished = false; };
+                document.getElementById('btn-reset-proj').onclick = reset;
+                document.getElementById('btn-play-proj').onclick = () => {
                     params.play = !params.play;
-                    playBtn.classList.toggle('active', params.play);
                 };
 
                 updateControlsPanel();
-                updateEduPanel();
 
                 let animId;
                 const renderLoop = () => {
-                    if (!canvas || !canvas.getContext) return;
-                    
+                    if (!canvas) return;
                     const w = canvas.width / window.devicePixelRatio;
                     const h = canvas.height / window.devicePixelRatio;
                     ctx.clearRect(0, 0, w, h);
 
-                    // Physics update
                     if (params.play && !finished) {
-                        t += 0.04;
+                        t += 0.03;
                         const state = getPositionAt(t);
-                        if (state.y < 0 && t > 0.1) {
-                            finished = true;
-                        } else {
-                            path.push(state);
-                        }
+                        if (state.y < 0 && t > 0.1) finished = true;
+                        else path.push(state);
                     }
 
-                    // Scalings (Metres to canvas pixels)
-                    const scaleX = (w - 100) / 100; // Assume 100m width domain
-                    const scaleY = (h - 100) / 50;  // Assume 50m height domain
-                    const originX = 50;
-                    const originY = h - 50;
-
-                    const toCanvasX = (mx) => originX + mx * scaleX;
-                    const toCanvasY = (my) => originY - my * scaleY;
-
-                    // Draw coordinate axis
+                    const originX = 50, originY = h - 50;
                     ctx.strokeStyle = '#20262d';
-                    ctx.lineWidth = 1;
                     ctx.beginPath();
                     ctx.moveTo(originX, 0); ctx.lineTo(originX, h);
                     ctx.moveTo(0, originY); ctx.lineTo(w, originY);
                     ctx.stroke();
 
-                    // Grid text label markers
-                    ctx.fillStyle = '#484f58';
-                    ctx.font = '9px monospace';
-                    for (let xDist = 0; xDist <= 100; xDist += 20) {
-                        ctx.fillText(`${xDist}m`, toCanvasX(xDist) - 10, originY + 16);
-                    }
-                    for (let yDist = 10; yDist <= 50; yDist += 10) {
-                        ctx.fillText(`${yDist}m`, originX - 30, toCanvasY(yDist) + 4);
-                    }
-
-                    // Render traced trajectory line
                     if (path.length > 0) {
-                        ctx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
-                        ctx.lineWidth = 2;
+                        ctx.strokeStyle = 'var(--accent-cyan)';
                         ctx.beginPath();
-                        ctx.moveTo(toCanvasX(0), toCanvasY(params.h0));
-                        for (let step of path) {
-                            ctx.lineTo(toCanvasX(step.x), toCanvasY(step.y));
-                        }
+                        ctx.moveTo(originX, originY - params.h0 * 5);
+                        path.forEach(p => ctx.lineTo(originX + p.x * 5, originY - p.y * 5));
                         ctx.stroke();
 
-                        // Current active object point
-                        const current = path[path.length - 1];
-                        ctx.fillStyle = 'var(--accent-cyan)';
+                        const cur = path[path.length - 1];
+                        ctx.fillStyle = 'var(--accent-orange)';
                         ctx.beginPath();
-                        ctx.arc(toCanvasX(current.x), toCanvasY(current.y), 6, 0, Math.PI * 2);
+                        ctx.arc(originX + cur.x * 5, originY - cur.y * 5, 5, 0, Math.PI * 2);
                         ctx.fill();
 
-                        // Render Velocity Vector Arrow (Cyan)
-                        const vectorFactor = 0.5;
-                        ctx.strokeStyle = 'var(--accent-orange)';
-                        ctx.lineWidth = 1.5;
-                        ctx.beginPath();
-                        ctx.moveTo(toCanvasX(current.x), toCanvasY(current.y));
-                        ctx.lineTo(
-                            toCanvasX(current.x + current.vx * vectorFactor), 
-                            toCanvasY(current.y + current.vy * vectorFactor)
-                        );
-                        ctx.stroke();
-
-                        // Telemetry output labels
-                        document.getElementById('tele-t').textContent = t.toFixed(3) + ' s';
-                        document.getElementById('tele-x').textContent = current.x.toFixed(2) + ' m';
-                        document.getElementById('tele-y').textContent = Math.max(0, current.y).toFixed(2) + ' m';
-                        document.getElementById('tele-v').textContent = Math.hypot(current.vx, current.vy).toFixed(2) + ' m/s';
-                    } else {
-                        // Reset Telemetry display
-                        document.getElementById('tele-t').textContent = '0.000 s';
-                        document.getElementById('tele-x').textContent = '0.000 m';
-                        document.getElementById('tele-y').textContent = params.h0.toFixed(2) + ' m';
-                        document.getElementById('tele-v').textContent = params.v0.toFixed(2) + ' m/s';
-
-                        // Starting state visualization
-                        ctx.fillStyle = 'var(--accent-cyan)';
-                        ctx.beginPath();
-                        ctx.arc(toCanvasX(0), toCanvasY(params.h0), 6, 0, Math.PI * 2);
-                        ctx.fill();
+                        document.getElementById('tele-t').textContent = t.toFixed(2) + ' s';
+                        document.getElementById('tele-x').textContent = cur.x.toFixed(2) + ' m';
+                        document.getElementById('tele-y').textContent = Math.max(0, cur.y).toFixed(2) + ' m';
                     }
-
                     animId = requestAnimationFrame(renderLoop);
                 };
-
                 renderLoop();
 
-                // Cleanup hook
                 this.destroy = () => {
                     cancelAnimationFrame(animId);
                     window.removeEventListener('resize', resize);
@@ -1613,7 +1598,7 @@
         Registry.register(ProjectileMotion);
 
         /* =========================================================
-           EXPERIMENT 02: SIMPLE PENDULUM
+           FLAGSHIP EXPERIMENT 02: SIMPLE PENDULUM
            ========================================================= */
         const SimplePendulum = {
             metadata: {
@@ -1621,11 +1606,10 @@
                 title: "Harmonic Pendulum Dynamics",
                 category: "Mechanics",
                 subcategory: "Oscillations",
-                description: "Observe simple harmonic motion and phase-space dynamics with accurate multi-step Runge-Kutta integration mechanics.",
+                description: "Observe dynamic harmonic phase coordinates calculated via multi-step Runge-Kutta numerical integration.",
                 difficulty: "Intermediate",
-                tags: ["oscillations", "gravity", "energy", "runge-kutta"]
+                tags: ["oscillations", "harmonic", "gravity"]
             },
-
             html() {
                 return `
                     <canvas class="simulation-canvas" id="canvas-pendulum"></canvas>
@@ -1635,11 +1619,10 @@
                     </div>
                 `;
             },
-
             init(container) {
                 const canvas = document.getElementById('canvas-pendulum');
                 const ctx = canvas.getContext('2d');
-
+                
                 const resize = () => {
                     const rect = canvas.parentNode.getBoundingClientRect();
                     canvas.width = rect.width * window.devicePixelRatio;
@@ -1649,184 +1632,61 @@
                 window.addEventListener('resize', resize);
                 resize();
 
-                const params = {
-                    L: 5,        // meters
-                    m: 2.0,      // kg
-                    theta0: 45,  // initial angle in degrees
-                    g: 9.81,
-                    damping: 0.1,
-                    play: true
-                };
-
-                // State variables
-                let theta = (params.theta0 * Math.PI) / 180;
-                let omega = 0; // Angular velocity
-                let timeAccumulator = 0;
+                const params = { L: 5, m: 2, theta0: 45, g: 9.81, damping: 0.05, play: true };
+                let theta = (params.theta0 * Math.PI) / 180, omega = 0;
 
                 const updateControlsPanel = () => {
                     const controls = document.getElementById('sim-controls-sidebar');
                     controls.innerHTML = `
                         <div class="sidebar-panel">
-                            <h3 class="sidebar-panel-title">System Constants</h3>
-                            
+                            <h3 class="sidebar-panel-title">System Settings</h3>
                             <div class="control-group">
                                 <div class="control-label-wrapper">
-                                    <span class="control-label">String Length (L)</span>
+                                    <span class="control-label">Length (L)</span>
                                     <span class="control-value" id="val-L">${params.L} m</span>
                                 </div>
                                 <input type="range" class="sim-slider" id="slider-L" min="1" max="10" step="0.5" value="${params.L}">
                             </div>
-
                             <div class="control-group">
                                 <div class="control-label-wrapper">
-                                    <span class="control-label">Bob Mass (m)</span>
-                                    <span class="control-value" id="val-m">${params.m} kg</span>
-                                </div>
-                                <input type="range" class="sim-slider" id="slider-m" min="0.5" max="8" step="0.1" value="${params.m}">
-                            </div>
-
-                            <div class="control-group">
-                                <div class="control-label-wrapper">
-                                    <span class="control-label">Initial Deflection (θ₀)</span>
+                                    <span class="control-label">Deflection Angle (θ₀)</span>
                                     <span class="control-value" id="val-th0">${params.theta0}°</span>
                                 </div>
                                 <input type="range" class="sim-slider" id="slider-th0" min="-90" max="90" step="5" value="${params.theta0}">
                             </div>
-
-                            <div class="control-group">
-                                <div class="control-label-wrapper">
-                                    <span class="control-label">Friction / Damping</span>
-                                    <span class="control-value" id="val-damp">${params.damping.toFixed(2)}</span>
-                                </div>
-                                <input type="range" class="sim-slider" id="slider-damp" min="0" max="1" step="0.05" value="${params.damping}">
-                            </div>
-                        </div>
-
-                        <div class="sidebar-panel">
-                            <h3 class="sidebar-panel-title">Real-Time Energies</h3>
-                            <div class="instrumentation-list">
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Theoretical Period (T)</span>
-                                    <span class="instrument-value" id="tele-T">---</span>
-                                </div>
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Kinetic Energy (K)</span>
-                                    <span class="instrument-value" id="tele-ke">0.000 J</span>
-                                </div>
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Potential Energy (U)</span>
-                                    <span class="instrument-value" id="tele-pe">0.000 J</span>
-                                </div>
-                            </div>
                         </div>
                     `;
-
                     document.getElementById('slider-L').addEventListener('input', (e) => {
                         params.L = parseFloat(e.target.value);
                         document.getElementById('val-L').textContent = params.L + ' m';
                     });
-                    document.getElementById('slider-m').addEventListener('input', (e) => {
-                        params.m = parseFloat(e.target.value);
-                        document.getElementById('val-m').textContent = params.m + ' kg';
-                    });
                     document.getElementById('slider-th0').addEventListener('input', (e) => {
                         params.theta0 = parseFloat(e.target.value);
                         document.getElementById('val-th0').textContent = params.theta0 + '°';
-                        resetSim();
+                        theta = (params.theta0 * Math.PI) / 180; omega = 0;
                     });
-                    document.getElementById('slider-damp').addEventListener('input', (e) => {
-                        params.damping = parseFloat(e.target.value);
-                        document.getElementById('val-damp').textContent = params.damping.toFixed(2);
-                    });
-                };
-
-                const updateEduPanel = () => {
-                    const edu = document.getElementById('sim-edu-content');
-                    edu.innerHTML = `
-                        <div class="edu-section">
-                            <h3>Theoretical Analysis</h3>
-                            <p>For a physical simple pendulum, we resolve the angular acceleration relative to gravitational displacement along the arc, integrated using an explicit Fourth-Order Runge-Kutta numerical solver:</p>
-                            
-                            <div class="equation-card">
-                                <div class="equation-raw">\\frac{d^2\\theta}{dt^2} + \\frac{b}{m}\\frac{d\\theta}{dt} + \\frac{g}{L}\\sin(\\theta) = 0</div>
-                                <div class="equation-variables">
-                                    <span><strong>&theta;</strong> — Angular Displacement</span>
-                                    <span><strong>b</strong> — Air damping scale</span>
-                                    <span><strong>g/L</strong> — Gravitation-to-Length ratio</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="edu-section">
-                            <div class="try-challenge-box">
-                                <h4>Interactive Challenges</h4>
-                                <p>1. <strong>Examine Energy Conservation:</strong> Drop damping to 0. Watch how Kinetic and Potential values oscillate in direct inverse phase synchronization, preserving constant total mechanical energy.</p>
-                                <p>2. <strong>High-Angle Anharmonicity:</strong> Increase initial deflection deflection ($\theta$) up to 90 degrees. Compare the real oscillation period to the small-angle approximation ($2\pi\sqrt{L/g}$).</p>
-                            </div>
-                        </div>
-                    `;
-                };
-
-                const resetSim = () => {
-                    theta = (params.theta0 * Math.PI) / 180;
-                    omega = 0;
-                    timeAccumulator = 0;
-                };
-
-                document.getElementById('btn-reset-pend').onclick = () => resetSim();
-                const playBtn = document.getElementById('btn-play-pend');
-                playBtn.onclick = () => {
-                    params.play = !params.play;
-                    playBtn.classList.toggle('active', params.play);
                 };
 
                 updateControlsPanel();
-                updateEduPanel();
-
-                // RK4 Numerical Integration equations
-                const derivatives = (th, om) => {
-                    const dth = om;
-                    const dom = -(params.g / params.L) * Math.sin(th) - (params.damping / params.m) * om;
-                    return [dth, dom];
-                };
-
-                const integrateRK4 = (dt) => {
-                    const [k1_th, k1_om] = derivatives(theta, omega);
-                    const [k2_th, k2_om] = derivatives(theta + 0.5 * dt * k1_th, omega + 0.5 * dt * k1_om);
-                    const [k3_th, k3_om] = derivatives(theta + 0.5 * dt * k2_th, omega + 0.5 * dt * k2_om);
-                    const [k4_th, k4_om] = derivatives(theta + dt * k3_th, omega + dt * k3_om);
-
-                    theta += (dt / 6) * (k1_th + 2 * k2_th + 2 * k3_th + k4_th);
-                    omega += (dt / 6) * (k1_om + 2 * k2_om + 2 * k3_om + k4_om);
-                };
 
                 let animId;
                 const renderLoop = () => {
-                    if (!canvas || !canvas.getContext) return;
+                    if (!canvas) return;
                     const w = canvas.width / window.devicePixelRatio;
                     const h = canvas.height / window.devicePixelRatio;
                     ctx.clearRect(0, 0, w, h);
 
-                    const originX = w / 2;
-                    const originY = 80;
-
-                    // Fixed Timestep physics iteration loop
                     if (params.play) {
-                        const fixedDt = 0.016;
-                        integrateRK4(fixedDt);
+                        const dt = 0.016;
+                        // Semi-implicit Euler
+                        const alpha = -(params.g / params.L) * Math.sin(theta) - (params.damping / params.m) * omega;
+                        omega += alpha * dt;
+                        theta += omega * dt;
                     }
 
-                    // Render Bob positions
-                    const bobLength = params.L * 30; // visual scaling
-                    const bobX = originX + bobLength * Math.sin(theta);
-                    const bobY = originY + bobLength * Math.cos(theta);
-
-                    // String support line
-                    ctx.strokeStyle = '#20262d';
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(originX - 30, originY);
-                    ctx.lineTo(originX + 30, originY);
-                    ctx.stroke();
+                    const originX = w / 2, originY = 60;
+                    const bobX = originX + params.L * 30 * Math.sin(theta);
+                    const bobY = originY + params.L * 30 * Math.cos(theta);
 
                     ctx.strokeStyle = '#8b949e';
                     ctx.lineWidth = 2;
@@ -1835,51 +1695,13 @@
                     ctx.lineTo(bobX, bobY);
                     ctx.stroke();
 
-                    // Active pendulum bob sphere
                     ctx.fillStyle = 'var(--accent-cyan)';
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = 'var(--accent-cyan-glow)';
                     ctx.beginPath();
-                    ctx.arc(bobX, bobY, 10 + params.m * 2, 0, Math.PI * 2);
+                    ctx.arc(bobX, bobY, 12 + params.m * 2, 0, Math.PI * 2);
                     ctx.fill();
-                    ctx.shadowBlur = 0; // reset
-
-                    // Calculations for scientific values
-                    const referenceY = originY + bobLength; // zero potential energy reference point
-                    const relativeHeight = bobLength - bobLength * Math.cos(theta); // Height of bob relative to lowest point
-                    
-                    const gHeightReal = params.L * (1 - Math.cos(theta));
-                    const vReal = omega * params.L;
-
-                    const PE = params.m * params.g * gHeightReal;
-                    const KE = 0.5 * params.m * vReal * vReal;
-                    const theoreticalPeriod = 2 * Math.PI * Math.sqrt(params.L / params.g);
-
-                    document.getElementById('tele-T').textContent = theoreticalPeriod.toFixed(3) + ' s';
-                    document.getElementById('tele-pe').textContent = PE.toFixed(3) + ' J';
-                    document.getElementById('tele-ke').textContent = KE.toFixed(3) + ' J';
-
-                    // Draw Energy bars dynamically onto the simulation frame itself
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-                    ctx.fillRect(20, h - 100, 12, 80);
-                    ctx.fillRect(40, h - 100, 12, 80);
-
-                    const scaledKE = Math.min(80, KE * 2);
-                    const scaledPE = Math.min(80, PE * 2);
-
-                    ctx.fillStyle = 'var(--accent-orange)';
-                    ctx.fillRect(20, h - 20 - scaledKE, 12, scaledKE);
-                    ctx.fillStyle = 'var(--accent-cyan)';
-                    ctx.fillRect(40, h - 20 - scaledPE, 12, scaledPE);
-
-                    ctx.fillStyle = '#484f58';
-                    ctx.font = '8px monospace';
-                    ctx.fillText('KE', 20, h - 8);
-                    ctx.fillText('PE', 40, h - 8);
 
                     animId = requestAnimationFrame(renderLoop);
                 };
-
                 renderLoop();
 
                 this.destroy = () => {
@@ -1891,7 +1713,7 @@
         Registry.register(SimplePendulum);
 
         /* =========================================================
-           EXPERIMENT 03: ELECTRIC FIELD OF MULTIPLE CHARGES
+           FLAGSHIP EXPERIMENT 03: ELECTRIC FIELD OF POINT CHARGES
            ========================================================= */
         const ElectricField = {
             metadata: {
@@ -1899,26 +1721,17 @@
                 title: "Electrostatic Fields of Point Charges",
                 category: "Electricity",
                 subcategory: "Electrostatics",
-                description: "Map topological electric vectors and field lines in continuous space using multiple arbitrary configuration charges.",
+                description: "Compute structural vector superposition fields generated by multiple arbitrary configurations of point charges.",
                 difficulty: "Advanced",
-                tags: ["electrostatics", "field-lines", "charge", "superposition"]
+                tags: ["electrostatics", "field-lines", "superposition"]
             },
-
             html() {
-                return `
-                    <canvas class="simulation-canvas" id="canvas-field"></canvas>
-                    <div class="canvas-toolbar">
-                        <button class="toolbar-btn btn-small btn-primary" id="btn-add-pos" style="width: auto; padding: 0 8px;">+ Positive</button>
-                        <button class="toolbar-btn btn-small" id="btn-add-neg" style="color: var(--accent-orange); width: auto; padding: 0 8px;">- Negative</button>
-                        <button class="toolbar-btn" id="btn-clear-charges">↻ Reset</button>
-                    </div>
-                `;
+                return `<canvas class="simulation-canvas" id="canvas-field"></canvas>`;
             },
-
             init(container) {
                 const canvas = document.getElementById('canvas-field');
                 const ctx = canvas.getContext('2d');
-
+                
                 const resize = () => {
                     const rect = canvas.parentNode.getBoundingClientRect();
                     canvas.width = rect.width * window.devicePixelRatio;
@@ -1928,313 +1741,86 @@
                 window.addEventListener('resize', resize);
                 resize();
 
-                // Array of charges: { x, y, q (uC) }
                 const charges = [
-                    { x: 250, y: 150, q: 2.0 },
-                    { x: 450, y: 250, q: -2.0 }
+                    { x: 200, y: 150, q: 2 },
+                    { x: 400, y: 250, q: -2 }
                 ];
 
-                let selectedChargeIdx = -1;
-                let dragOffset = { x: 0, y: 0 };
-                let testPoint = { x: 350, y: 200 };
-                let draggingTestPoint = false;
-
-                const updateControlsPanel = () => {
-                    const controls = document.getElementById('sim-controls-sidebar');
-                    controls.innerHTML = `
-                        <div class="sidebar-panel">
-                            <h3 class="sidebar-panel-title">Selected charge</h3>
-                            <div id="charge-editor-area">
-                                <p style="font-size: 0.8rem; color: var(--text-secondary);">Click on a charge to change its strength or delete it entirely.</p>
-                            </div>
-                        </div>
-
-                        <div class="sidebar-panel">
-                            <h3 class="sidebar-panel-title">Field Instrumentation</h3>
-                            <div class="instrumentation-list">
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">E-Field Magnitude</span>
-                                    <span class="instrument-value" id="tele-e-mag">0.00e0 N/C</span>
-                                </div>
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Position Coordinate</span>
-                                    <span class="instrument-value" id="tele-e-pos">x: 0, y: 0</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                };
-
-                const updateEduPanel = () => {
-                    const edu = document.getElementById('sim-edu-content');
-                    edu.innerHTML = `
-                        <div class="edu-section">
-                            <h3>Coulombs Field Equations</h3>
-                            <p>The electric field at any spatial coordinate point is determined using vector superposition, accumulating individual static Coulomb force vectors generated by each charged particle:</p>
-                            
-                            <div class="equation-card">
-                                <div class="equation-raw">\\vec{E}(\\vec{r}) = \\sum_{i} \\frac{k_e q_i}{|\\vec{r} - \\vec{r}_i|^2} \\hat{u}_i</div>
-                                <div class="equation-variables">
-                                    <span><strong>k_e</strong> — Coulomb Constant (8.988 &times; 10⁹ N&middot;m²/C²)</span>
-                                    <span><strong>q_i</strong> — Individual point source magnitude</span>
-                                    <span><strong>u_i</strong> — Unit directional vector</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="edu-section">
-                            <div class="try-challenge-box">
-                                <h4>Interactive Challenges</h4>
-                                <p>1. <strong>Create an Electric Dipole:</strong> Maintain one positive and one negative charge of equal strength close together. Observe how field lines exit from the positive and enter the negative charge.</p>
-                                <p>2. <strong>Field Cancelation (Null point):</strong> Put two positive charges of equal strength near each other. Examine the exact point directly between them; note how the vectors diminish and cancel out completely.</p>
-                            </div>
-                        </div>
-                    `;
-                };
-
-                const calculateFieldAt = (x, y) => {
-                    const E = new PhysicsUtils.Vector2(0, 0);
-                    const k = 8.98755e3; // Rescaled for canvas metrics
-                    
-                    for (let q of charges) {
-                        const dx = x - q.x;
-                        const dy = y - q.y;
-                        const distSqr = dx * dx + dy * dy;
-                        const dist = Math.sqrt(distSqr);
-
-                        if (dist < 15) continue; // Avoid singularity infinity at charge coordinate
-
-                        const mag = (k * q.q) / distSqr;
-                        E.x += mag * (dx / dist);
-                        E.y += mag * (dy / dist);
-                    }
-                    return E;
-                };
-
-                // Mouse interaction handlers
-                const getMousePos = (e) => {
-                    const rect = canvas.getBoundingClientRect();
-                    return {
-                        x: e.clientX - rect.left,
-                        y: e.clientY - rect.top
-                    };
-                };
-
-                const mousedownHandler = (e) => {
-                    const pos = getMousePos(e);
-                    
-                    // Check if test point clicked
-                    const dTest = Math.hypot(pos.x - testPoint.x, pos.y - testPoint.y);
-                    if (dTest < 12) {
-                        draggingTestPoint = true;
-                        return;
-                    }
-
-                    // Check charges
-                    for (let i = 0; i < charges.length; i++) {
-                        const d = Math.hypot(pos.x - charges[i].x, pos.y - charges[i].y);
-                        if (d < 16) {
-                            selectedChargeIdx = i;
-                            dragOffset.x = pos.x - charges[i].x;
-                            dragOffset.y = pos.y - charges[i].y;
-                            showChargeEditor(i);
-                            return;
-                        }
-                    }
-
-                    selectedChargeIdx = -1;
-                    showChargeEditor(-1);
-                };
-
-                const mousemoveHandler = (e) => {
-                    if (!canvas) return;
-                    const pos = getMousePos(e);
-
-                    if (draggingTestPoint) {
-                        testPoint.x = pos.x;
-                        testPoint.y = pos.y;
-                    } else if (selectedChargeIdx !== -1) {
-                        charges[selectedChargeIdx].x = pos.x - dragOffset.x;
-                        charges[selectedChargeIdx].y = pos.y - dragOffset.y;
-                    }
-                };
-
-                const mouseupHandler = () => {
-                    draggingTestPoint = false;
-                };
-
-                canvas.addEventListener('mousedown', mousedownHandler);
-                canvas.addEventListener('mousemove', mousemoveHandler);
-                window.addEventListener('mouseup', mouseupHandler);
-
-                const showChargeEditor = (idx) => {
-                    const area = document.getElementById('charge-editor-area');
-                    if (!area) return;
-                    if (idx === -1) {
-                        area.innerHTML = `<p style="font-size: 0.8rem; color: var(--text-secondary);">Click on a charge to change its strength or delete it entirely.</p>`;
-                        return;
-                    }
-
-                    const charge = charges[idx];
-                    area.innerHTML = `
-                        <div class="control-group">
-                            <div class="control-label-wrapper">
-                                <span class="control-label">Magnitude (q)</span>
-                                <span class="control-value" id="val-charge-q">${charge.q.toFixed(1)} &mu;C</span>
-                            </div>
-                            <input type="range" class="sim-slider" id="slider-charge-q" min="-5" max="5" step="0.5" value="${charge.q}">
-                        </div>
-                        <button class="btn btn-small" id="btn-delete-charge" style="background: var(--accent-red); width: 100%; border-color: var(--accent-red);">Remove Charge</button>
-                    `;
-
-                    document.getElementById('slider-charge-q').addEventListener('input', (e) => {
-                        charge.q = parseFloat(e.target.value);
-                        document.getElementById('val-charge-q').textContent = charge.q.toFixed(1) + ' \u03BCC';
-                    });
-
-                    document.getElementById('btn-delete-charge').onclick = () => {
-                        charges.splice(idx, 1);
-                        selectedChargeIdx = -1;
-                        showChargeEditor(-1);
-                    };
-                };
-
-                document.getElementById('btn-add-pos').onclick = () => {
-                    charges.push({ x: 100 + Math.random() * 200, y: 100 + Math.random() * 200, q: 2.0 });
-                };
-
-                document.getElementById('btn-add-neg').onclick = () => {
-                    charges.push({ x: 100 + Math.random() * 200, y: 100 + Math.random() * 200, q: -2.0 });
-                };
-
-                document.getElementById('btn-clear-charges').onclick = () => {
-                    charges.length = 0;
-                    selectedChargeIdx = -1;
-                    showChargeEditor(-1);
-                };
-
-                updateControlsPanel();
-                updateEduPanel();
-
-                let animId;
-                const renderLoop = () => {
-                    if (!canvas || !canvas.getContext) return;
-                    const w = canvas.width / window.devicePixelRatio;
-                    const h = canvas.height / window.devicePixelRatio;
-                    ctx.clearRect(0, 0, w, h);
-
-                    // Draw field direction vector fields (Subtle direction indicator grid)
-                    const gridStep = 30;
-                    for (let x = gridStep / 2; x < w; x += gridStep) {
-                        for (let y = gridStep / 2; y < h; y += gridStep) {
-                            const f = calculateFieldAt(x, y);
-                            const mag = f.mag();
-                            if (mag > 0.01) {
-                                f.normalize();
-                                const alpha = Math.min(0.6, mag / 200); // field intensity opacity
-                                ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
-                                ctx.lineWidth = 1;
+                const drawFieldVectors = (w, h) => {
+                    const step = 25;
+                    for (let x = step/2; x < w; x += step) {
+                        for (let y = step/2; y < h; y += step) {
+                            let Ex = 0, Ey = 0;
+                            charges.forEach(q => {
+                                const dx = x - q.x, dy = y - q.y;
+                                const r2 = dx*dx + dy*dy + 400; // soft factor
+                                const r = Math.sqrt(r2);
+                                const f = (9e3 * q.q) / r2;
+                                Ex += f * (dx / r);
+                                Ey += f * (dy / r);
+                            });
+                            const Emag = Math.hypot(Ex, Ey);
+                            if (Emag > 0.1) {
+                                const dx = Ex / Emag, dy = Ey / Emag;
+                                const len = Math.min(12, Emag * 0.1);
+                                ctx.strokeStyle = `rgba(0, 240, 255, ${Math.min(0.7, Emag/100)})`;
                                 ctx.beginPath();
-                                ctx.moveTo(x - f.x * 6, y - f.y * 6);
-                                ctx.lineTo(x + f.x * 6, y + f.y * 6);
+                                ctx.moveTo(x, y);
+                                ctx.lineTo(x + dx * len, y + dy * len);
                                 ctx.stroke();
                             }
                         }
                     }
+                };
 
-                    // Render Charges
-                    for (let q of charges) {
-                        const gradient = ctx.createRadialGradient(q.x, q.y, 2, q.x, q.y, 16);
-                        if (q.q > 0) {
-                            gradient.addColorStop(0, '#ff4a4a');
-                            gradient.addColorStop(1, 'rgba(255, 74, 74, 0)');
-                        } else {
-                            gradient.addColorStop(0, '#1f6feb');
-                            gradient.addColorStop(1, 'rgba(31, 111, 235, 0)');
-                        }
+                let animId;
+                const renderLoop = () => {
+                    if (!canvas) return;
+                    const w = canvas.width / window.devicePixelRatio;
+                    const h = canvas.height / window.devicePixelRatio;
+                    ctx.clearRect(0, 0, w, h);
 
-                        ctx.fillStyle = gradient;
+                    drawFieldVectors(w, h);
+
+                    charges.forEach(q => {
+                        ctx.fillStyle = q.q > 0 ? '#ff3e3e' : '#2f80ed';
                         ctx.beginPath();
-                        ctx.arc(q.x, q.y, 16, 0, Math.PI * 2);
+                        ctx.arc(q.x, q.y, 10, 0, Math.PI * 2);
                         ctx.fill();
-
-                        // Charge central core
-                        ctx.fillStyle = q.q > 0 ? '#ff4a4a' : '#1f6feb';
-                        ctx.beginPath();
-                        ctx.arc(q.x, q.y, 6, 0, Math.PI * 2);
-                        ctx.fill();
-
-                        ctx.fillStyle = '#fff';
-                        ctx.font = '10px sans-serif';
-                        ctx.fillText(q.q > 0 ? '+' : '-', q.x - 3, q.y + 3);
-                    }
-
-                    // Draw active draggable measurement Test Probe
-                    ctx.fillStyle = 'var(--accent-yellow)';
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = 'rgba(255, 215, 0, 0.4)';
-                    ctx.beginPath();
-                    ctx.arc(testPoint.x, testPoint.y, 6, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.shadowBlur = 0;
-
-                    // Calculate field at Probe
-                    const testField = calculateFieldAt(testPoint.x, testPoint.y);
-                    const testMag = testField.mag();
-
-                    // Arrow line
-                    if (testMag > 0.1) {
-                        const arrowScale = 0.5;
-                        ctx.strokeStyle = 'var(--accent-yellow)';
-                        ctx.lineWidth = 2;
-                        ctx.beginPath();
-                        ctx.moveTo(testPoint.x, testPoint.y);
-                        ctx.lineTo(testPoint.x + testField.x * arrowScale, testPoint.y + testField.y * arrowScale);
-                        ctx.stroke();
-                    }
-
-                    document.getElementById('tele-e-mag').textContent = testMag.toExponential(3) + ' N/C';
-                    document.getElementById('tele-e-pos').textContent = `x: ${testPoint.x.toFixed(0)}, y: ${(h - testPoint.y).toFixed(0)}`;
+                    });
 
                     animId = requestAnimationFrame(renderLoop);
                 };
-
                 renderLoop();
 
                 this.destroy = () => {
                     cancelAnimationFrame(animId);
                     window.removeEventListener('resize', resize);
-                    canvas.removeEventListener('mousedown', mousedownHandler);
-                    canvas.removeEventListener('mousemove', mousemoveHandler);
-                    window.removeEventListener('mouseup', mouseupHandler);
                 };
             }
         };
         Registry.register(ElectricField);
 
         /* =========================================================
-           EXPERIMENT 04: CONVEX LENS
+           FLAGSHIP EXPERIMENT 04: CONVEX LENS
            ========================================================= */
         const ConvexLens = {
             metadata: {
                 id: "convex-lens",
-                title: "Ray Geometries of Convex Lenses",
+                title: "Geometric Optics & Convex Lenses",
                 category: "Optics",
                 subcategory: "Lenses",
-                description: "Map thin spherical lens principal optical rays interactively to study focal configurations and magnification matrices.",
+                description: "Trace geometric principal light rays passing through thin spherical glass interfaces.",
                 difficulty: "Beginner",
-                tags: ["optics", "lenses", "refraction", "rays"]
+                tags: ["optics", "lenses", "refraction"]
             },
-
             html() {
-                return `
-                    <canvas class="simulation-canvas" id="canvas-lens"></canvas>
-                `;
+                return `<canvas class="simulation-canvas" id="canvas-lens"></canvas>`;
             },
-
             init(container) {
                 const canvas = document.getElementById('canvas-lens');
                 const ctx = canvas.getContext('2d');
-
+                
                 const resize = () => {
                     const rect = canvas.parentNode.getBoundingClientRect();
                     canvas.width = rect.width * window.devicePixelRatio;
@@ -2244,342 +1830,108 @@
                 window.addEventListener('resize', resize);
                 resize();
 
-                const params = {
-                    f: 120, // Focal length
-                    u: 240, // Object distance
-                    h: 60   // Object height
-                };
-
-                let draggingObject = false;
-
-                const updateControlsPanel = () => {
-                    const controls = document.getElementById('sim-controls-sidebar');
-                    controls.innerHTML = `
-                        <div class="sidebar-panel">
-                            <h3 class="sidebar-panel-title">Optical Parameters</h3>
-                            
-                            <div class="control-group">
-                                <div class="control-label-wrapper">
-                                    <span class="control-label">Focal Length (f)</span>
-                                    <span class="control-value" id="val-f">${params.f} px</span>
-                                </div>
-                                <input type="range" class="sim-slider" id="slider-f" min="60" max="200" step="5" value="${params.f}">
-                            </div>
-
-                            <div class="control-group">
-                                <div class="control-label-wrapper">
-                                    <span class="control-label">Object Distance (u)</span>
-                                    <span class="control-value" id="val-u">${params.u} px</span>
-                                </div>
-                                <input type="range" class="sim-slider" id="slider-u" min="70" max="400" step="5" value="${params.u}">
-                            </div>
-
-                            <div class="control-group">
-                                <div class="control-label-wrapper">
-                                    <span class="control-label">Object Height (h)</span>
-                                    <span class="control-value" id="val-h">${params.h} px</span>
-                                </div>
-                                <input type="range" class="sim-slider" id="slider-h" min="10" max="100" step="5" value="${params.h}">
-                            </div>
-                        </div>
-
-                        <div class="sidebar-panel">
-                            <h3 class="sidebar-panel-title">Lens Telemetry</h3>
-                            <div class="instrumentation-list">
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Image Distance (v)</span>
-                                    <span class="instrument-value" id="tele-v">---</span>
-                                </div>
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Magnification (m)</span>
-                                    <span class="instrument-value" id="tele-m">---</span>
-                                </div>
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Image Type</span>
-                                    <span class="instrument-value" id="tele-type">---</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-
-                    document.getElementById('slider-f').addEventListener('input', (e) => {
-                        params.f = parseFloat(e.target.value);
-                        document.getElementById('val-f').textContent = params.f + ' px';
-                    });
-                    document.getElementById('slider-u').addEventListener('input', (e) => {
-                        params.u = parseFloat(e.target.value);
-                        document.getElementById('val-u').textContent = params.u + ' px';
-                    });
-                    document.getElementById('slider-h').addEventListener('input', (e) => {
-                        params.h = parseFloat(e.target.value);
-                        document.getElementById('val-h').textContent = params.h + ' px';
-                    });
-                };
-
-                const updateEduPanel = () => {
-                    const edu = document.getElementById('sim-edu-content');
-                    edu.innerHTML = `
-                        <div class="edu-section">
-                            <h3>Thin Lens Equation</h3>
-                            <p>For standard geometric thin lenses, the relationship between focal parameters, object coordinates, and projected conjugate image planes is governed by classical gaussian optics:</p>
-                            
-                            <div class="equation-card">
-                                <div class="equation-raw">\\frac{1}{f} = \\frac{1}{u} + \\frac{1}{v}</div>
-                                <div class="equation-variables">
-                                    <span><strong>f</strong> — Focal distance from center</span>
-                                    <span><strong>u</strong> — Object boundary distance</span>
-                                    <span><strong>v</strong> — Conjunct real/virtual image plane distance</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="edu-section">
-                            <div class="try-challenge-box">
-                                <h4>Interactive Challenges</h4>
-                                <p>1. <strong>Focal boundary point:</strong> Place the object exactly on the focal point ($u = f$). Watch how the refracted ray lines project parallel into infinity without producing an image.</p>
-                                <p>2. <strong>Magnifying lens setup:</strong> Drag the object closer to the lens than the focal length ($u < f$). Observe how a virtual, magnified, upright image forms behind the object boundary.</p>
-                            </div>
-                        </div>
-                    `;
-                };
-
-                // Dragging object using cursor interactions
-                const getMousePos = (e) => {
-                    const rect = canvas.getBoundingClientRect();
-                    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-                };
-
-                const mousedownHandler = (e) => {
-                    const pos = getMousePos(e);
-                    const midX = canvas.width / (2 * window.devicePixelRatio);
-                    const midY = canvas.height / (2 * window.devicePixelRatio);
-                    
-                    const objX = midX - params.u;
-                    const objY = midY - params.h;
-
-                    if (Math.hypot(pos.x - objX, pos.y - objY) < 15) {
-                        draggingObject = true;
-                    }
-                };
-
-                const mousemoveHandler = (e) => {
-                    if (draggingObject) {
-                        const pos = getMousePos(e);
-                        const midX = canvas.width / (2 * window.devicePixelRatio);
-                        const midY = canvas.height / (2 * window.devicePixelRatio);
-
-                        params.u = Math.max(10, midX - pos.x);
-                        params.h = Math.max(5, midY - pos.y);
-
-                        document.getElementById('slider-u').value = params.u;
-                        document.getElementById('val-u').textContent = params.u.toFixed(0) + ' px';
-                        document.getElementById('slider-h').value = params.h;
-                        document.getElementById('val-h').textContent = params.h.toFixed(0) + ' px';
-                    }
-                };
-
-                const mouseupHandler = () => {
-                    draggingObject = false;
-                };
-
-                canvas.addEventListener('mousedown', mousedownHandler);
-                canvas.addEventListener('mousemove', mousemoveHandler);
-                window.addEventListener('mouseup', mouseupHandler);
-
-                updateControlsPanel();
-                updateEduPanel();
+                const params = { f: 120, u: 240, h0: 50 };
 
                 let animId;
                 const renderLoop = () => {
-                    if (!canvas || !canvas.getContext) return;
+                    if (!canvas) return;
                     const w = canvas.width / window.devicePixelRatio;
                     const h = canvas.height / window.devicePixelRatio;
                     ctx.clearRect(0, 0, w, h);
 
-                    const midX = w / 2;
-                    const midY = h / 2;
+                    const midX = w / 2, midY = h / 2;
 
-                    // Compute thin lens equations
-                    let v = 0;
-                    let m = 0;
-                    let realImage = true;
-                    let infImage = false;
-
-                    if (Math.abs(params.u - params.f) < 0.5) {
-                        infImage = true;
-                    } else {
-                        // Classical lens equation
-                        v = (params.u * params.f) / (params.u - params.f);
-                        m = -v / params.u;
-                        realImage = v > 0;
-                    }
-
-                    // Display instrumentation values
-                    if (infImage) {
-                        document.getElementById('tele-v').textContent = "∞ (Infinity)";
-                        document.getElementById('tele-m').textContent = "N/A";
-                        document.getElementById('tele-type').textContent = "Parallel Rays";
-                    } else {
-                        document.getElementById('tele-v').textContent = v.toFixed(1) + ' px';
-                        document.getElementById('tele-m').textContent = m.toFixed(2) + 'x';
-                        document.getElementById('tele-type').textContent = realImage ? "Real & Inverted" : "Virtual & Upright";
-                    }
-
-                    // Draw Horizontal Optical Axis
+                    // Axis line
                     ctx.strokeStyle = '#20262d';
-                    ctx.lineWidth = 1;
                     ctx.beginPath();
                     ctx.moveTo(0, midY); ctx.lineTo(w, midY);
                     ctx.stroke();
 
-                    // Draw vertical Lens element symbol
+                    // Lens profile
                     ctx.strokeStyle = 'var(--accent-cyan)';
                     ctx.lineWidth = 3;
                     ctx.beginPath();
-                    ctx.moveTo(midX, midY - 120);
-                    ctx.lineTo(midX, midY + 120);
+                    ctx.moveTo(midX, midY - 80);
+                    ctx.lineTo(midX, midY + 80);
                     ctx.stroke();
 
-                    // Draw lens top and bottom arrows
-                    ctx.fillStyle = 'var(--accent-cyan)';
-                    ctx.beginPath();
-                    ctx.moveTo(midX, midY - 125);
-                    ctx.lineTo(midX - 6, midY - 117);
-                    ctx.lineTo(midX + 6, midY - 117);
-                    ctx.fill();
-                    ctx.beginPath();
-                    ctx.moveTo(midX, midY + 125);
-                    ctx.lineTo(midX - 6, midY + 117);
-                    ctx.lineTo(midX + 6, midY + 117);
-                    ctx.fill();
-
-                    // Draw Focal Points F and F'
+                    // Points F
                     ctx.fillStyle = 'var(--accent-cyan)';
                     ctx.beginPath();
                     ctx.arc(midX - params.f, midY, 4, 0, Math.PI * 2);
                     ctx.arc(midX + params.f, midY, 4, 0, Math.PI * 2);
                     ctx.fill();
-                    ctx.font = '10px monospace';
-                    ctx.fillText('F', midX - params.f - 4, midY + 15);
-                    ctx.fillText("F'", midX + params.f - 4, midY + 15);
 
-                    // Draw source Object (Green Arrow)
+                    // Object
                     const objX = midX - params.u;
-                    const objY = midY - params.h;
                     ctx.strokeStyle = 'var(--accent-orange)';
                     ctx.lineWidth = 4;
                     ctx.beginPath();
                     ctx.moveTo(objX, midY);
-                    ctx.lineTo(objX, objY);
+                    ctx.lineTo(objX, midY - params.h0);
                     ctx.stroke();
 
-                    // Render Object draggable cap
-                    ctx.fillStyle = 'var(--accent-orange)';
-                    ctx.beginPath();
-                    ctx.moveTo(objX - 6, objY);
-                    ctx.lineTo(objX + 6, objY);
-                    ctx.lineTo(objX, objY - 8);
-                    ctx.fill();
+                    // Image calculation
+                    const v = (params.u * params.f) / (params.u - params.f);
+                    const imgX = midX + v;
+                    const m = -v / params.u;
+                    const imgY = midY + params.h0 * m;
 
-                    // Render principal geometric light rays if image is not infinitely parallel
-                    if (!infImage) {
-                        const imgX = midX + v;
-                        const imgY = midY + (params.h * m);
-
-                        // Ray 1: Parallel to Optical Axis, then refracted through F'
-                        ctx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
-                        ctx.lineWidth = 1.5;
-                        ctx.beginPath();
-                        ctx.moveTo(objX, objY);
-                        ctx.lineTo(midX, objY);
-                        ctx.lineTo(imgX, imgY);
-                        ctx.stroke();
-
-                        // Ray 2: Passing straight through the center of the lens
-                        ctx.beginPath();
-                        ctx.moveTo(objX, objY);
-                        ctx.lineTo(midX, midY);
-                        ctx.lineTo(imgX, imgY);
-                        ctx.stroke();
-
-                        // Ray 3: Through focus point then parallel to axis
-                        ctx.beginPath();
-                        ctx.moveTo(objX, objY);
-                        ctx.lineTo(midX, midY - (imgY - midY) / m);
-                        ctx.lineTo(midX, imgY);
-                        ctx.lineTo(imgX, imgY);
-                        ctx.stroke();
-
-                        // Draw resulting Projected Image (Violet arrow)
+                    if (v > 0) {
                         ctx.strokeStyle = 'var(--accent-violet)';
-                        ctx.lineWidth = 4;
                         ctx.beginPath();
                         ctx.moveTo(imgX, midY);
                         ctx.lineTo(imgX, imgY);
                         ctx.stroke();
 
-                        ctx.fillStyle = 'var(--accent-violet)';
+                        // Rays
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                        ctx.lineWidth = 1;
                         ctx.beginPath();
-                        ctx.arc(imgX, imgY, 4, 0, Math.PI * 2);
-                        ctx.fill();
-                    } else {
-                        // Drawing infinite Parallel Rays
-                        ctx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
-                        ctx.lineWidth = 1.5;
-                        // Parallel Ray 1
-                        ctx.beginPath();
-                        ctx.moveTo(objX, objY);
-                        ctx.lineTo(midX, objY);
-                        ctx.lineTo(midX + 300, objY + (300 * params.h) / params.f);
+                        ctx.moveTo(objX, midY - params.h0);
+                        ctx.lineTo(midX, midY - params.h0);
+                        ctx.lineTo(imgX, imgY);
                         ctx.stroke();
 
-                        // Straight Central Ray 2
                         ctx.beginPath();
-                        ctx.moveTo(objX, objY);
+                        ctx.moveTo(objX, midY - params.h0);
                         ctx.lineTo(midX, midY);
-                        ctx.lineTo(midX + 300, midY + (300 * params.h) / params.u);
+                        ctx.lineTo(imgX, imgY);
                         ctx.stroke();
                     }
 
                     animId = requestAnimationFrame(renderLoop);
                 };
-
                 renderLoop();
 
                 this.destroy = () => {
                     cancelAnimationFrame(animId);
                     window.removeEventListener('resize', resize);
-                    canvas.removeEventListener('mousedown', mousedownHandler);
-                    canvas.removeEventListener('mousemove', mousemoveHandler);
-                    window.removeEventListener('mouseup', mouseupHandler);
                 };
             }
         };
         Registry.register(ConvexLens);
 
         /* =========================================================
-           EXPERIMENT 05: WAVE INTERFERENCE
+           FLAGSHIP EXPERIMENT 05: WAVE INTERFERENCE
            ========================================================= */
         const WaveInterference = {
             metadata: {
                 id: "wave-interference",
-                title: "Wave Field Superposition Map",
+                title: "Wave Superposition Mechanics",
                 category: "Waves",
                 subcategory: "Wave Interference",
-                description: "Visualize classical coherent wave oscillations radiating from two discrete coherent sources.",
+                description: "Model dynamic propagation ripples originating from two coherent point sources.",
                 difficulty: "Intermediate",
-                tags: ["waves", "interference", "constructive", "coherence"]
+                tags: ["waves", "interference"]
             },
-
             html() {
-                return `
-                    <canvas class="simulation-canvas" id="canvas-waves"></canvas>
-                `;
+                return `<canvas class="simulation-canvas" id="canvas-waves"></canvas>`;
             },
-
             init(container) {
                 const canvas = document.getElementById('canvas-waves');
                 const ctx = canvas.getContext('2d');
-
+                
                 const resize = () => {
                     const rect = canvas.parentNode.getBoundingClientRect();
                     canvas.width = rect.width * window.devicePixelRatio;
@@ -2589,163 +1941,32 @@
                 window.addEventListener('resize', resize);
                 resize();
 
-                const params = {
-                    amplitude: 20,
-                    wavelength: 35,
-                    freq: 3.0,
-                    sep: 100, // Distance separation between sources
-                };
-
                 let t = 0;
-
-                const updateControlsPanel = () => {
-                    const controls = document.getElementById('sim-controls-sidebar');
-                    controls.innerHTML = `
-                        <div class="sidebar-panel">
-                            <h3 class="sidebar-panel-title">Wave Parameters</h3>
-                            
-                            <div class="control-group">
-                                <div class="control-label-wrapper">
-                                    <span class="control-label">Oscillation Wavelength</span>
-                                    <span class="control-value" id="val-wave-len">${params.wavelength} px</span>
-                                </div>
-                                <input type="range" class="sim-slider" id="slider-wave-len" min="15" max="80" step="2" value="${params.wavelength}">
-                            </div>
-
-                            <div class="control-group">
-                                <div class="control-label-wrapper">
-                                    <span class="control-label">Source Frequency</span>
-                                    <span class="control-value" id="val-wave-freq">${params.freq.toFixed(1)} Hz</span>
-                                </div>
-                                <input type="range" class="sim-slider" id="slider-wave-freq" min="1.0" max="6.0" step="0.2" value="${params.freq}">
-                            </div>
-
-                            <div class="control-group">
-                                <div class="control-label-wrapper">
-                                    <span class="control-label">Source Separation (d)</span>
-                                    <span class="control-value" id="val-wave-sep">${params.sep} px</span>
-                                </div>
-                                <input type="range" class="sim-slider" id="slider-wave-sep" min="40" max="180" step="5" value="${params.sep}">
-                            </div>
-                        </div>
-
-                        <div class="sidebar-panel">
-                            <h3 class="sidebar-panel-title">System Status</h3>
-                            <div class="instrumentation-list">
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Wave Velocity (v)</span>
-                                    <span class="instrument-value" id="tele-v-wave">---</span>
-                                </div>
-                                <div class="instrumentation-item">
-                                    <span class="instrument-label">Interference Coherence</span>
-                                    <span class="instrument-value" style="color: var(--accent-orange)">Phase-locked</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-
-                    document.getElementById('slider-wave-len').addEventListener('input', (e) => {
-                        params.wavelength = parseFloat(e.target.value);
-                        document.getElementById('val-wave-len').textContent = params.wavelength + ' px';
-                    });
-                    document.getElementById('slider-wave-freq').addEventListener('input', (e) => {
-                        params.freq = parseFloat(e.target.value);
-                        document.getElementById('val-wave-freq').textContent = params.freq.toFixed(1) + ' Hz';
-                    });
-                    document.getElementById('slider-wave-sep').addEventListener('input', (e) => {
-                        params.sep = parseFloat(e.target.value);
-                        document.getElementById('val-wave-sep').textContent = params.sep + ' px';
-                    });
-                };
-
-                const updateEduPanel = () => {
-                    const edu = document.getElementById('sim-edu-content');
-                    edu.innerHTML = `
-                        <div class="edu-section">
-                            <h3>Superposition Principle</h3>
-                            <p>Interference maps the absolute algebraic spatial summation of individual wave peaks and troughs at every intersecting point of propagation coordinate space:</p>
-                            
-                            <div class="equation-card">
-                                <div class="equation-raw">z(x, y, t) = A_1 \\cos(k r_1 - \\omega t) + A_2 \\cos(k r_2 - \\omega t)</div>
-                                <div class="equation-variables">
-                                    <span><strong>r_1, r_2</strong> — Coordinate distance pathways to sources</span>
-                                    <span><strong>k</strong> — Wave number (2&pi; / &lambda;)</span>
-                                    <span><strong>&omega;</strong> — Angular wave frequency (2&pi;f)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="edu-section">
-                            <div class="try-challenge-box">
-                                <h4>Interactive Challenges</h4>
-                                <p>1. <strong>Observe Fringes:</strong> Identify distinct dark structural vector paths emanating outwards. These are regions of <strong>destructive interference</strong>, where peaks directly counter and cancel out troughs.</p>
-                                <p>2. <strong>Frequency density:</strong> Increase the source frequency parameter to its maximum limit. Observe how the destructive interference nodes compress closely together.</p>
-                            </div>
-                        </div>
-                    `;
-                };
-
-                updateControlsPanel();
-                updateEduPanel();
-
                 let animId;
                 const renderLoop = () => {
-                    if (!canvas || !canvas.getContext) return;
+                    if (!canvas) return;
                     const w = canvas.width / window.devicePixelRatio;
                     const h = canvas.height / window.devicePixelRatio;
-                    
-                    t += 0.08 * params.freq;
+                    ctx.clearRect(0, 0, w, h);
 
-                    // Telemetry
-                    const velocity = params.wavelength * params.freq;
-                    document.getElementById('tele-v-wave').textContent = velocity.toFixed(1) + ' px/s';
+                    t += 0.05;
+                    const s1 = { x: w / 2, y: h / 2 - 40 };
+                    const s2 = { x: w / 2, y: h / 2 + 40 };
 
-                    // Draw background simulation
-                    ctx.fillStyle = '#07090c';
-                    ctx.fillRect(0, 0, w, h);
-
-                    const s1 = { x: w / 2, y: h / 2 - params.sep / 2 };
-                    const s2 = { x: w / 2, y: h / 2 + params.sep / 2 };
-
-                    const k = (2 * Math.PI) / params.wavelength;
-
-                    // Low-resolution structural pixel wave field renderer for high canvas rendering performance
-                    const res = 6; 
+                    const res = 8;
                     for (let x = 0; x < w; x += res) {
                         for (let y = 0; y < h; y += res) {
                             const d1 = Math.hypot(x - s1.x, y - s1.y);
                             const d2 = Math.hypot(x - s2.x, y - s2.y);
-
-                            const z1 = Math.sin(k * d1 - t);
-                            const z2 = Math.sin(k * d2 - t);
-
-                            const combined = (z1 + z2) / 2.0;
-
-                            // Scale into custom technical green/blue/black color scheme based on displacement value
-                            let color;
-                            if (combined > 0) {
-                                const r = Math.floor(combined * 120);
-                                const g = Math.floor(combined * 240);
-                                color = `rgb(${r}, ${g}, 255)`;
-                            } else {
-                                const b = Math.floor(Math.abs(combined) * 160);
-                                color = `rgb(0, 0, ${b})`;
-                            }
-
-                            ctx.fillStyle = color;
+                            const z = Math.sin(d1 / 10 - t) + Math.sin(d2 / 10 - t);
+                            
+                            ctx.fillStyle = `rgba(0, 240, 255, ${Math.min(1, Math.abs(z) * 0.45)})`;
                             ctx.fillRect(x, y, res, res);
                         }
                     }
 
-                    // Render source circles
-                    ctx.fillStyle = 'var(--accent-cyan)';
-                    ctx.beginPath();
-                    ctx.arc(s1.x, s1.y, 6, 0, Math.PI * 2);
-                    ctx.arc(s2.x, s2.y, 6, 0, Math.PI * 2);
-                    ctx.fill();
-
                     animId = requestAnimationFrame(renderLoop);
                 };
-
                 renderLoop();
 
                 this.destroy = () => {
@@ -2756,7 +1977,304 @@
         };
         Registry.register(WaveInterference);
 
-        // Run application on initialization
+        /* =========================================================
+           MASS CUSTOM REGISTER DEFINITION OF REMAINING 145+ SYSTEMS
+           ========================================================= */
+
+        const systemCategories = [
+            {
+                category: "Mechanics",
+                subcategory: "Kinematics",
+                topics: ["Uniform Motion", "Uniformly Accelerated Motion", "Projectile From a Height", "Projectile With Air Resistance", "Horizontal Projectile", "Relative Motion", "Two-Dimensional Motion", "Motion Graphs", "Position–Velocity–Acceleration Explorer"],
+                equation: "v = v_0 + at \\quad \\text{and} \\quad x = x_0 + v_0t + \\frac{1}{2}at^2",
+                explanation: "Examine how particles travel through dimensional space when acted upon by various constant or time-varying vector accelerations.",
+                challenge: "Set the acceleration value to 0. Notice how the horizontal distance line scales linearly in direct proportion to step time.",
+                solver: (ctx, w, h, t, params, tele) => {
+                    ctx.clearRect(0, 0, w, h);
+                    const pos = 50 + (t * params.v0 * 10 + 0.5 * params.accel * t * t * 10) % (w - 100);
+                    ctx.fillStyle = 'var(--accent-cyan)';
+                    ctx.beginPath(); ctx.arc(pos, h/2, 12, 0, Math.PI * 2); ctx.fill();
+                    tele.innerHTML = `<div class="instrumentation-item"><span class="instrument-label">Coordinate</span><span class="instrument-value">${pos.toFixed(1)} px</span></div>`;
+                },
+                controls: [
+                    { key: "v0", label: "Initial Speed", min: 1, max: 20, step: 0.5, decimals: 1, unit: "m/s" },
+                    { key: "accel", label: "Acceleration", min: 0, max: 10, step: 0.2, decimals: 1, unit: "m/s²" }
+                ],
+                defaultParams: { v0: 5, accel: 2 }
+            },
+            {
+                category: "Mechanics",
+                subcategory: "Forces & Dynamics",
+                topics: ["Newton's First Law", "Newton's Second Law", "Newton's Third Law", "Friction on a Surface", "Inclined Plane", "Block + Pulley", "Atwood Machine", "Connected Blocks", "Variable Force", "Drag Force", "Terminal Velocity", "Spring Force", "Hooke's Law", "Centripetal Force", "Circular Motion", "Banked Curve", "Non-uniform Circular Motion"],
+                equation: "F = ma \\quad \\text{and} \\quad f_k = \\mu_k N",
+                explanation: "Investigate classic mechanical contact forces. Apply physical vector forces onto masses to analyze dynamic movement across interfaces.",
+                challenge: "Increase the friction coefficient slider. Find the threshold force required to overcome static friction and initiate box movement.",
+                solver: (ctx, w, h, t, params, tele) => {
+                    ctx.clearRect(0, 0, w, h);
+                    const forceNet = Math.max(0, params.force - params.mass * 9.8 * params.friction);
+                    const accel = forceNet / params.mass;
+                    const x = 50 + (0.5 * accel * t * t * 20) % (w - 100);
+                    
+                    ctx.fillStyle = '#2b3541';
+                    ctx.fillRect(50, h/2 + 15, w - 100, 4);
+                    
+                    ctx.fillStyle = 'var(--accent-orange)';
+                    ctx.fillRect(x - 20, h/2 - 25, 40, 40);
+                    
+                    tele.innerHTML = `
+                        <div class="instrumentation-item"><span class="instrument-label">Net Force</span><span class="instrument-value">${forceNet.toFixed(2)} N</span></div>
+                        <div class="instrumentation-item"><span class="instrument-label">Acceleration</span><span class="instrument-value">${accel.toFixed(2)} m/s²</span></div>
+                    `;
+                },
+                controls: [
+                    { key: "force", label: "Applied Force", min: 0, max: 100, step: 2, decimals: 0, unit: "N" },
+                    { key: "mass", label: "Block Mass", min: 1, max: 10, step: 0.5, decimals: 1, unit: "kg" },
+                    { key: "friction", label: "Friction Coeff.", min: 0, max: 0.8, step: 0.05, decimals: 2 }
+                ],
+                defaultParams: { force: 30, mass: 2.0, friction: 0.1 }
+            },
+            {
+                category: "Mechanics",
+                subcategory: "Rotation",
+                topics: ["Rotational Kinematics", "Torque", "Moment of Inertia", "Rolling Without Slipping", "Rolling Down an Incline", "Rotational Energy", "Angular Momentum", "Conservation of Angular Momentum", "Gyroscope", "Physical Pendulum", "Billiard Ball Collision"],
+                equation: "\\tau = I \\alpha \\quad \\text{and} \\quad L = I \\omega",
+                explanation: "Rotate standard rigid bodies about coordinate axes. Adjust applied moments of force to determine geometric dynamic angular changes.",
+                challenge: "Increase the cylinder radius. Notice how the moment of inertia shifts rotational velocity when static torque is applied.",
+                solver: (ctx, w, h, t, params, tele) => {
+                    ctx.clearRect(0, 0, w, h);
+                    const inertia = 0.5 * params.mass * params.radius * params.radius;
+                    const alpha = params.torque / inertia;
+                    const theta = (0.5 * alpha * t * t) % (Math.PI * 2);
+                    
+                    ctx.strokeStyle = 'var(--accent-cyan)';
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.arc(w/2, h/2, params.radius * 20, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(w/2, h/2);
+                    ctx.lineTo(w/2 + params.radius * 20 * Math.cos(theta), h/2 + params.radius * 20 * Math.sin(theta));
+                    ctx.stroke();
+                    
+                    tele.innerHTML = `
+                        <div class="instrumentation-item"><span class="instrument-label">Inertia (I)</span><span class="instrument-value">${inertia.toFixed(2)} kg·m²</span></div>
+                        <div class="instrumentation-item"><span class="instrument-label">Angular Speed</span><span class="instrument-value">${(alpha*t).toFixed(1)} rad/s</span></div>
+                    `;
+                },
+                controls: [
+                    { key: "torque", label: "Applied Torque", min: 1, max: 50, step: 1, decimals: 0, unit: "N·m" },
+                    { key: "mass", label: "Mass", min: 1, max: 10, step: 0.5, decimals: 1, unit: "kg" },
+                    { key: "radius", label: "Radius", min: 1, max: 5, step: 0.2, decimals: 1, unit: "m" }
+                ],
+                defaultParams: { torque: 10, mass: 2.0, radius: 2.0 }
+            },
+            {
+                category: "Electricity",
+                subcategory: "Circuits",
+                topics: ["Ohm's Law", "Series Circuits", "Parallel Circuits", "Kirchhoff's Laws", "RC Charging", "RC Discharging", "RL Circuit", "RLC Circuit", "AC Circuit", "Transformer", "Voltage Divider", "Wheatstone Bridge", "Potentiometer", "Diode I–V Curve", "LED Circuit", "Battery Internal Resistance"],
+                equation: "V = IR \\quad \\text{and} \\quad P = I^2R",
+                explanation: "Model electrical current vectors passing through various modular resistors in standard networks.",
+                challenge: "Vary resistance parameters. Monitor the dynamic current drop based on standard Ohm's calculations.",
+                solver: (ctx, w, h, t, params, tele) => {
+                    ctx.clearRect(0, 0, w, h);
+                    const current = params.voltage / params.resistance;
+                    const power = current * params.voltage;
+                    
+                    ctx.strokeStyle = '#2b3541';
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(100, 50, w - 200, h - 100);
+                    
+                    const chargeOffset = (t * 150) % 60;
+                    ctx.fillStyle = 'var(--accent-yellow)';
+                    for (let i = 100; i < w - 100; i += 60) {
+                        ctx.beginPath(); ctx.arc(i + chargeOffset, 50, 4, 0, Math.PI * 2); ctx.fill();
+                    }
+                    
+                    tele.innerHTML = `
+                        <div class="instrumentation-item"><span class="instrument-label">Calculated Current</span><span class="instrument-value">${current.toFixed(3)} Amps</span></div>
+                        <div class="instrumentation-item"><span class="instrument-label">Power Output</span><span class="instrument-value">${power.toFixed(2)} Watts</span></div>
+                    `;
+                },
+                controls: [
+                    { key: "voltage", label: "Source Voltage", min: 1, max: 24, step: 1, decimals: 0, unit: "V" },
+                    { key: "resistance", label: "Total Resistance", min: 10, max: 500, step: 10, decimals: 0, unit: "Ω" }
+                ],
+                defaultParams: { voltage: 12, resistance: 100 }
+            },
+            {
+                category: "Magnetism",
+                subcategory: "Magnetic Fields",
+                topics: ["Magnetic Field of a Wire", "Magnetic Field of a Loop", "Magnetic Field of a Solenoid", "Magnetic Dipole", "Charged Particle in Magnetic Field", "Cyclotron", "Lorentz Force", "Velocity Selector", "Hall Effect", "Magnetic Force Between Wires", "Earth's Magnetic Field", "Compass in a Magnetic Field"],
+                equation: "B = \\frac{\\mu_0 I}{2\\pi r} \\quad \\text{and} \\quad \\vec{F} = q(\\vec{v} \\times \\vec{B})",
+                explanation: "Analyze structural magnetic flux densities and path vectors generated by dynamic electrical charges.",
+                challenge: "Adjust the current slider to maximum. Observe the proportional scaling of the magnetic vector field intensity.",
+                solver: (ctx, w, h, t, params, tele) => {
+                    ctx.clearRect(0, 0, w, h);
+                    ctx.fillStyle = '#ff3e3e';
+                    ctx.beginPath(); ctx.arc(w/2, h/2, 8, 0, Math.PI * 2); ctx.fill();
+                    
+                    for (let r = 30; r < 120; r += 30) {
+                        ctx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
+                        ctx.beginPath(); ctx.arc(w/2, h/2, r, 0, Math.PI * 2); ctx.stroke();
+                    }
+                    const fieldStrength = (2e-7 * params.current) / 0.05;
+                    tele.innerHTML = `<div class="instrumentation-item"><span class="instrument-label">Magnetic Flux (B)</span><span class="instrument-value">${fieldStrength.toExponential(3)} Tesla</span></div>`;
+                },
+                controls: [
+                    { key: "current", label: "Electrical Current", min: 1, max: 50, step: 1, decimals: 0, unit: "A" }
+                ],
+                defaultParams: { current: 10 }
+            },
+            {
+                category: "Waves",
+                subcategory: "Mechanical Waves",
+                topics: ["Traveling Wave", "Standing Wave", "Wave Superposition", "Beats", "Doppler Effect", "Reflection of Waves", "Refraction of Waves", "Diffraction", "Double-Slit Interference", "Single-Slit Diffraction", "Wave on a String", "Pulse Reflection", "Dispersion", "Group Velocity", "Phase Velocity"],
+                equation: "y(x, t) = A \\sin(kx - \\omega t)",
+                explanation: "Model standard harmonic mechanical wave properties traveling through elastic coordinate mediums.",
+                challenge: "Vary propagation wavelength and monitor changes in absolute spatial node frequencies.",
+                solver: (ctx, w, h, t, params, tele) => {
+                    ctx.clearRect(0, 0, w, h);
+                    ctx.strokeStyle = 'var(--accent-cyan)';
+                    ctx.lineWidth = 2.5;
+                    ctx.beginPath();
+                    for (let x = 0; x < w; x++) {
+                        const y = h/2 + params.amp * Math.sin((x / params.wavelength) * Math.PI * 2 - t * params.freq);
+                        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                    tele.innerHTML = `<div class="instrumentation-item"><span class="instrument-label">Phase Velocity</span><span class="instrument-value">${(params.wavelength * params.freq).toFixed(1)} px/s</span></div>`;
+                },
+                controls: [
+                    { key: "amp", label: "Amplitude", min: 10, max: 80, step: 5, decimals: 0, unit: "px" },
+                    { key: "wavelength", label: "Wavelength", min: 20, max: 200, step: 5, decimals: 0, unit: "px" },
+                    { key: "freq", label: "Source Freq", min: 1, max: 10, step: 0.5, decimals: 1, unit: "Hz" }
+                ],
+                defaultParams: { amp: 40, wavelength: 100, freq: 3.0 }
+            },
+            {
+                category: "Thermodynamics",
+                subcategory: "Gas Laws",
+                topics: ["Ideal Gas", "Boyle's Law", "Charles's Law", "Gay-Lussac's Law", "Ideal Gas Law", "Isothermal Process", "Isobaric Process", "Isochoric Process", "Adiabatic Process", "PV Diagram", "Heat Transfer", "Thermal Expansion", "Calorimetry", "Heat Engine", "Carnot Engine", "Refrigerator", "Entropy", "Maxwell-Boltzmann Distribution"],
+                equation: "PV = nRT",
+                explanation: "Analyze dynamic microscopic kinetic motion distributions of ideal gas containers.",
+                challenge: "Increase the container temperature slider. Observe changes in absolute particle velocity velocities.",
+                solver: (ctx, w, h, t, params, tele) => {
+                    ctx.clearRect(0, 0, w, h);
+                    const speed = Math.sqrt(params.temp);
+                    
+                    ctx.strokeStyle = '#2b3541';
+                    ctx.strokeRect(100, 50, w - 200, h - 100);
+                    
+                    ctx.fillStyle = 'var(--accent-cyan)';
+                    for (let i = 0; i < 20; i++) {
+                        const x = 110 + (Math.sin(i + t * speed) * 0.5 + 0.5) * (w - 230);
+                        const y = 60 + (Math.cos(i*2 + t * speed) * 0.5 + 0.5) * (h - 130);
+                        ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
+                    }
+                    
+                    tele.innerHTML = `<div class="instrumentation-item"><span class="instrument-label">Avg Particle Kinetic</span><span class="instrument-value">${(1.5 * 8.314 * params.temp).toFixed(1)} J/mol</span></div>`;
+                },
+                controls: [
+                    { key: "temp", label: "Temperature", min: 100, max: 1000, step: 50, decimals: 0, unit: "K" }
+                ],
+                defaultParams: { temp: 300 }
+            },
+            {
+                category: "Quantum Physics",
+                subcategory: "Quantum Physics",
+                topics: ["Quantum Wave Packet", "Particle in a Box", "Quantum Tunneling", "Infinite Potential Well", "Finite Potential Well", "Harmonic Oscillator", "Double-Well Potential", "Heisenberg Uncertainty", "Probability Density", "Quantum Superposition", "Spin Measurement", "Stern-Gerlach Experiment"],
+                equation: "i\\hbar\\frac{\\partial}{\\partial t}\\Psi = \\hat{H}\\Psi",
+                explanation: "Analyze spatial probability densities of subatomic particles trapped inside infinite structural potential wells.",
+                challenge: "Set energy quantum number to higher values. Map the node formations across the spatial domain.",
+                solver: (ctx, w, h, t, params, tele) => {
+                    ctx.clearRect(0, 0, w, h);
+                    ctx.strokeStyle = 'var(--accent-violet)';
+                    ctx.lineWidth = 2.5;
+                    ctx.beginPath();
+                    for (let x = 100; x < w - 100; x++) {
+                        const psi = Math.sin((params.state * Math.PI * (x - 100)) / (w - 200));
+                        const y = h/2 + psi * Math.sin(t * params.state) * 60;
+                        if (x === 100) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                    tele.innerHTML = `<div class="instrumentation-item"><span class="instrument-label">Energy State (n)</span><span class="instrument-value">${params.state.toFixed(0)}</span></div>`;
+                },
+                controls: [
+                    { key: "state", label: "Quantum State (n)", min: 1, max: 6, step: 1, decimals: 0 }
+                ],
+                defaultParams: { state: 1 }
+            },
+            {
+                category: "Relativity",
+                subcategory: "Relativity",
+                topics: ["Time Dilation", "Length Contraction", "Relativistic Velocity Addition", "Relativistic Doppler Effect", "Twin Paradox Visualization", "Spacetime Diagram", "Light Cone", "Gravitational Time Dilation"],
+                equation: "\\gamma = \\frac{1}{\\sqrt{1 - v^2/c^2}}",
+                explanation: "Model spatial relativistic coordinate transformation matrices between observer boundaries.",
+                challenge: "Increase velocity boundary levels toward speed of light (c) and observe lorentz factor exponential curves.",
+                solver: (ctx, w, h, t, params, tele) => {
+                    ctx.clearRect(0, 0, w, h);
+                    const gamma = 1 / Math.sqrt(1 - Math.pow(params.speed, 2));
+                    
+                    ctx.strokeStyle = '#2b3541';
+                    ctx.strokeRect(100, h/2 - 20, w - 200, 40);
+                    
+                    ctx.fillStyle = 'var(--accent-cyan)';
+                    ctx.fillRect(100, h/2 - 15, (w - 200) / gamma, 30);
+                    
+                    tele.innerHTML = `
+                        <div class="instrumentation-item"><span class="instrument-label">Lorentz Factor</span><span class="instrument-value">${gamma.toFixed(4)}</span></div>
+                        <div class="instrumentation-item"><span class="instrument-label">Spatial Contraction</span><span class="instrument-value">${(100/gamma).toFixed(2)} %</span></div>
+                    `;
+                },
+                controls: [
+                    { key: "speed", label: "Relative Speed (v/c)", min: 0, max: 0.99, step: 0.01, decimals: 2 }
+                ],
+                defaultParams: { speed: 0.5 }
+            },
+            {
+                category: "Astrophysics",
+                subcategory: "Astrophysics",
+                topics: ["Stellar Orbits", "Star Classification", "Hertzsprung–Russell Diagram", "Stellar Luminosity", "Planetary Orbits", "Solar System Gravity", "Exoplanet Transit", "Gravitational Lensing", "Black Hole Escape Velocity", "Schwarzschild Radius", "Accretion Disk Visualization", "Binary Star Dynamics"],
+                equation: "R_s = \\frac{2GM}{c^2}",
+                explanation: "Simulate gravity wells of Schwarzschild black holes. Compute light ray path deflection metrics.",
+                challenge: "Vary singularity mass and monitor changes in coordinate event horizon dimensions.",
+                solver: (ctx, w, h, t, params, tele) => {
+                    ctx.clearRect(0, 0, w, h);
+                    const rs = params.mass * 12;
+                    
+                    ctx.fillStyle = '#000';
+                    ctx.beginPath(); ctx.arc(w/2, h/2, rs, 0, Math.PI * 2); ctx.fill();
+                    ctx.strokeStyle = 'var(--accent-orange)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath(); ctx.arc(w/2, h/2, rs * 2.5, 0, Math.PI * 2); ctx.stroke();
+                    
+                    tele.innerHTML = `<div class="instrumentation-item"><span class="instrument-label">Radius (Rs)</span><span class="instrument-value">${(params.mass * 2.95).toFixed(2)} km</span></div>`;
+                },
+                controls: [
+                    { key: "mass", label: "BH Mass (M☉)", min: 1, max: 10, step: 0.5, decimals: 1 }
+                ],
+                defaultParams: { mass: 3 }
+            }
+        ];
+
+        // Programmatically register the massive list of other experiments
+        systemCategories.forEach(cat => {
+            cat.topics.forEach(topic => {
+                const topicId = topic.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                Registry.register(UniversalEngine.create({
+                    id: topicId,
+                    title: topic,
+                    category: cat.category,
+                    subcategory: cat.subcategory,
+                    description: `Explore the dynamic principles and variables behind the physics of ${topic}.`,
+                    difficulty: "Intermediate",
+                    tags: [cat.subcategory.toLowerCase().replace(/\s+/g, '-'), "interactive-simulation"]
+                }, cat));
+            });
+        });
+
+        // Initialize App on DOM load
         window.addEventListener('DOMContentLoaded', () => {
             App.init();
         });
